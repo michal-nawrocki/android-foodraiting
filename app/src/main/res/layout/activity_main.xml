@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
 
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_above="@+id/bottom_navi"
-        android:background="#000000"
+        android:background="@color/purple"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"></View>
 
     <android.support.design.widget.BottomNavigationView
