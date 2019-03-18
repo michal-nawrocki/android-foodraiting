@@ -1,40 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
     android:padding="6dip" >
 
-    <ImageView
-        android:id="@+id/icon"
+    <TextView
+        android:id="@+id/row_Name"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:contentDescription="TODO"
-        android:src="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/secondLine"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/icon"
-        android:text="Description"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/firstLine"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/secondLine"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/icon"
-        android:gravity="center_vertical"
         android:text="Example application"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/row_Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/star1"
+        android:text="Description"
+        android:textSize="15sp"/>
+
+    <ImageView
+        android:id="@+id/star1"
+        android:tint="@color/purple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_Name"
+        android:contentDescription="Star1"
+        app:srcCompat="@drawable/rating_border" />
+
+    <ImageView
+        android:id="@+id/star2"
+        android:tint="@color/purple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/star1"
+        android:layout_below="@id/row_Name"
+        android:contentDescription="Star2"
+        app:srcCompat="@drawable/rating_border" />
+
+    <ImageView
+        android:id="@+id/star3"
+        android:tint="@color/purple"
+        android:layout_toEndOf="@id/star2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_Name"
+        android:contentDescription="Star3"
+        app:srcCompat="@drawable/rating_border" />
+
+    <ImageView
+        android:id="@+id/star4"
+        android:tint="@color/purple"
+        android:layout_toEndOf="@id/star3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_Name"
+        android:contentDescription="Star3"
+        app:srcCompat="@drawable/rating_border" />
+
+    <ImageView
+        android:id="@+id/star5"
+        android:tint="@color/purple"
+        android:layout_toEndOf="@id/star4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_Name"
+        android:contentDescription="Star4"
+        app:srcCompat="@drawable/rating_border" />
+
+    <ImageButton
+        android:id="@+id/row_favButton"
+        android:tint="@color/purple"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/favourite_border" />
+
 
 </RelativeLayout>

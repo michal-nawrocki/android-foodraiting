@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         List<String> input = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            input.add("Test" + i);
+        for (int i = 0; i < 15; i++) {
+            input.add("Restaurant #" + i);
         }// define an adapter
         mAdapter = new MyAdapter(input);
         recyclerView.setAdapter(mAdapter);

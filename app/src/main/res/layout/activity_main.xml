@@ -4,13 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".MainActivity">
 
     <SearchView
         android:id="@+id/searchView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/searchView_filter"
+        android:background="@android:color/white"
+        android:gravity="start"
+        android:orientation="horizontal" />
+
+    <ImageButton
+        android:id="@+id/searchView_filter"
+        android:tint="@color/purple"
+        android:gravity="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/establishmentList"
+        android:background="@android:color/white"
+        app:srcCompat="@drawable/search_filter"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/establishmentList"
@@ -18,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom_navi"
         android:layout_below="@id/searchView"
-        android:background="@color/recyclerBG"
+        android:background="@android:color/white"
         android:scrollbars="vertical"
         tools:listitem="@layout/row_layout" />
 
@@ -26,7 +43,9 @@
         android:id="@+id/bottom_navi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_menu" />
+
 
 </RelativeLayout>

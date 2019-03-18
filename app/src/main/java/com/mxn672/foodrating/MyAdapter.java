@@ -25,8 +25,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public ViewHolder(View v) {
             super(v);
             layout = v;
-            txtHeader = (TextView) v.findViewById(R.id.firstLine);
-            txtFooter = (TextView) v.findViewById(R.id.secondLine);
+            txtHeader = (TextView) v.findViewById(R.id.row_Name);
+            txtFooter = (TextView) v.findViewById(R.id.row_Address);
         }
     }
 

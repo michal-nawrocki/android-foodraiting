@@ -13,9 +13,5 @@
     <color name="blue_dark">#192E40</color>
     <color name="blue_middle">#6DA6A0</color>
     <color name="blue_warm">#93BFAF</color>
-    <color name="white">#F2F2F2</color>
     <color name="green">#6DA67B</color>
-
-    <color name="recyclerBG">#F1F1F1</color>
-
 </resources>
