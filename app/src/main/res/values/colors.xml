@@ -16,4 +16,6 @@
     <color name="white">#F2F2F2</color>
     <color name="green">#6DA67B</color>
 
+    <color name="recyclerBG">#F1F1F1</color>
+
 </resources>
