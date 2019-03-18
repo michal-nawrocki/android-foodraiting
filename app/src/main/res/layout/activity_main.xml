@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="6dp"
         android:layout_above="@id/establishmentList"
         android:background="@android:color/white"
         app:srcCompat="@drawable/search_filter"/>
@@ -31,12 +32,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/establishmentList"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom_navi"
         android:layout_below="@id/searchView"
         android:background="@android:color/white"
         android:scrollbars="vertical"
+        android:nestedScrollingEnabled="false"
         tools:listitem="@layout/row_layout" />
 
     <android.support.design.widget.BottomNavigationView
@@ -46,6 +48,5 @@
         android:background="@android:color/white"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_menu" />
-
 
 </RelativeLayout>

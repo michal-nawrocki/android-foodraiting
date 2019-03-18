@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -12,14 +13,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v7.widget.RecyclerView.HORIZONTAL;
+
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private BottomNavigationView bottomNavi;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,22 +48,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         recyclerView = (RecyclerView) findViewById(R.id.establishmentList);
-        // use this setting to
-        // improve performance if you know that changes
-        // in content do not change the layout size
-        // of the RecyclerView
-
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
+
+        String[] input = new String[15];
+        for (int i = 0; i < 15; i++) {
+            input[i] = "Restaurant " + (i+1);
+        }
+
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            input.add("Restaurant #" + i);
-        }// define an adapter
+
+
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
+
+        // specify an adapter (see also next example)
         mAdapter = new MyAdapter(input);
         recyclerView.setAdapter(mAdapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), HORIZONTAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 }

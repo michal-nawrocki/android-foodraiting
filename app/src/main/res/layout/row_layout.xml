@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@id/star1"
-        android:text="Description"
+        android:text="Address"
         android:textSize="15sp"/>
 
     <ImageView
@@ -76,6 +76,7 @@
         android:id="@+id/row_favButton"
         android:tint="@color/purple"
         android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
