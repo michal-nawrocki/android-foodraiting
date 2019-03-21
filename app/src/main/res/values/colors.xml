@@ -14,4 +14,10 @@
     <color name="blue_middle">#6DA6A0</color>
     <color name="blue_warm">#93BFAF</color>
     <color name="green">#6DA67B</color>
+
+    <color name="dark_blue">#180065</color>
+    <color name="light_blue">#334ee9ff</color>
+    <color name="medium_green">#3d853e</color>
+    <color name="light_green">#3c2ae668</color>
+
 </resources>

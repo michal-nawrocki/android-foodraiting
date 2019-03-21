@@ -14,7 +14,11 @@
         android:layout_toLeftOf="@id/searchView_filter"
         android:background="@android:color/white"
         android:gravity="start"
-        android:orientation="horizontal" />
+        android:iconifiedByDefault="false"
+        android:imeOptions="actionSearch"
+        android:orientation="horizontal"
+        android:queryHint="Enter name" >
+    </SearchView>
 
     <ImageButton
         android:id="@+id/searchView_filter"
@@ -37,7 +41,7 @@
         android:layout_above="@id/bottom_navi"
         android:layout_below="@id/searchView"
         android:background="@android:color/white"
-        android:scrollbars="vertical"
+        android:scrollbars="none"
         android:nestedScrollingEnabled="false"
         tools:listitem="@layout/row_layout" />
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeightLarge"
     android:padding="6dip" >
 
@@ -14,63 +14,25 @@
         android:text="Example application"
         android:textSize="20sp" />
 
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_Name"
+        android:progressTint="@color/purple"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="1" />
+
     <TextView
         android:id="@+id/row_Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/star1"
+        android:layout_below="@id/ratingBar"
         android:text="Address"
         android:textSize="15sp"/>
-
-    <ImageView
-        android:id="@+id/star1"
-        android:tint="@color/purple"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row_Name"
-        android:contentDescription="Star1"
-        app:srcCompat="@drawable/rating_border" />
-
-    <ImageView
-        android:id="@+id/star2"
-        android:tint="@color/purple"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/star1"
-        android:layout_below="@id/row_Name"
-        android:contentDescription="Star2"
-        app:srcCompat="@drawable/rating_border" />
-
-    <ImageView
-        android:id="@+id/star3"
-        android:tint="@color/purple"
-        android:layout_toEndOf="@id/star2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row_Name"
-        android:contentDescription="Star3"
-        app:srcCompat="@drawable/rating_border" />
-
-    <ImageView
-        android:id="@+id/star4"
-        android:tint="@color/purple"
-        android:layout_toEndOf="@id/star3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row_Name"
-        android:contentDescription="Star3"
-        app:srcCompat="@drawable/rating_border" />
-
-    <ImageView
-        android:id="@+id/star5"
-        android:tint="@color/purple"
-        android:layout_toEndOf="@id/star4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row_Name"
-        android:contentDescription="Star4"
-        app:srcCompat="@drawable/rating_border" />
 
     <ImageButton
         android:id="@+id/row_favButton"
@@ -82,6 +44,5 @@
         android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/favourite_border" />
-
 
 </RelativeLayout>
