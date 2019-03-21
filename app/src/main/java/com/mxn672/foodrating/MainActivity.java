@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -104,37 +105,32 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onRequestSearch() {
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "http://api.ratings.food.gov.uk/establishments?address=B15 2TT";
-
-        JsonObjectRequest getRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final String allProducts = "http://api.ratings.food.gov.uk/establishments?address=B15 2TT&pageNumber=2";
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, allProducts, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("Response", String.valueOf(response));
+                        Log.e("result", String.valueOf(response));
                     }
                 },
-                new Response.ErrorListener(){
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error){
-
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("result", "Upsie, got an error" + error.getLocalizedMessage());
                     }
                 }
         ){
             @Override
-            public Map<String, String> getHeaders(){
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("x-api-version", "2");
-                params.put("format", "JSON");
+            public Map getHeaders(){
+                HashMap headers = new HashMap();
+                headers.put("x-api-version", "2");
+                headers.put("format", "JSON");
 
-                return params;
+                return headers;
             }
         };
 
-        queue.add(getRequest);
-
+        requestQueue.add(getRequest);
     }
 }
