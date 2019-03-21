@@ -13,21 +13,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -36,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavi;
 
     private ImageButton filterButton;
+
+
 
 
     @Override
@@ -89,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
 
         // specify an adapter (see also next example)
@@ -106,31 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onRequestSearch() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final String allProducts = "http://api.ratings.food.gov.uk/establishments?address=B15 2TT&pageNumber=2";
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, allProducts, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("result", String.valueOf(response));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("result", "Upsie, got an error" + error.getLocalizedMessage());
-                    }
-                }
-        ){
-            @Override
-            public Map getHeaders(){
-                HashMap headers = new HashMap();
-                headers.put("x-api-version", "2");
-                headers.put("format", "JSON");
-
-                return headers;
-            }
-        };
-
-        requestQueue.add(getRequest);
+        requestQueue.add(RequestHandler.setByName("Roosters"));
     }
+
+
 }
