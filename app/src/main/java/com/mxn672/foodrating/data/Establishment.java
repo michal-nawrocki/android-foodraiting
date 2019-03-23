@@ -1,5 +1,8 @@
 package com.mxn672.foodrating.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Establishment {
     public String businessName;
     public String businessType;
@@ -14,9 +17,22 @@ public class Establishment {
     public String lat;
     public String distance;
 
+    public Establishment(JSONObject obj){
+        try {
+            this.businessName = (String) obj.get("BusinessName");
+            this.rating = (String) obj.get("RatingValue");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Establishment(String businessName){
 
         this.businessName = businessName;
+    }
+
+    public Establishment(String businessName, String rating){
+        this.businessName = businessName;
+        this.rating = rating;
     }
 };

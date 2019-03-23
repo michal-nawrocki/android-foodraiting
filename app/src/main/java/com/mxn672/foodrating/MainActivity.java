@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Fetching Data...");
         progressDialog.show();
 
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?" + filters + "&address=Birmingham", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?" + filters + "&address=Birmingham&pageSize=20", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
                             for(int i = 0; i < array.length(); i++){
                                 JSONObject data = array.getJSONObject(i);
-                                Establishment estb = new Establishment((String) data.get("BusinessName"));
+                                Establishment estb = new Establishment(data);
+
                                 establishmentsList.add(estb);
                             }
 
