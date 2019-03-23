@@ -1,11 +1,17 @@
 package com.mxn672.foodrating;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +29,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.mxn672.foodrating.data.Establishment;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,10 +57,18 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private ArrayList<Establishment> establishmentsList = new ArrayList<>();
 
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+
+    private double lon;
+    private double lat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        callPermissions();
 
         bottomNavi = (BottomNavigationView) findViewById(R.id.bottom_navi);
         bottomNavi.setSelectedItemId(R.id.search);
@@ -119,6 +139,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void requestLocationUpdates(){
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            == PermissionChecker.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PermissionChecker.PERMISSION_GRANTED){
+            fusedLocationProviderClient = new FusedLocationProviderClient(this);
+            locationRequest = new LocationRequest();
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setFastestInterval(2);
+            locationRequest.setInterval(400000);
+
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult){
+                    super.onLocationResult(locationResult);
+                    Log.e("Location: ", locationResult.getLastLocation().getLatitude() + " " + locationResult.getLastLocation().getLongitude());
+                    lat = locationResult.getLastLocation().getLatitude();
+                    lon = locationResult.getLastLocation().getLongitude();
+                }
+            }, getMainLooper());
+        }else{
+            callPermissions();
+        }
+    }
+
+    public void callPermissions(){
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+        Permissions.check(this, permissions, "Location permissions are requiered",
+                null,
+                new PermissionHandler() {
+
+                    @Override
+                    public void onGranted() {
+                        requestLocationUpdates();
+                    }
+
+                    @Override
+                    public void onDenied(Context context, ArrayList<String> deniedPermissions){
+                        super.onDenied(context, deniedPermissions);
+                        callPermissions();
+                    }
+                });
+    }
+
     private void showAlertDialog() {
         FragmentManager fm = getSupportFragmentManager();
         FilterDialog alertDialog = new FilterDialog();
@@ -130,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Fetching Data...");
         //progressDialog.show();
 
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?name=" + filters + "&address=Birmingham&pageSize=20", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?name=" + filters +
+                "&latitude=" + lat + "&longitude=" +  lon  + "&pageSize=20", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
