@@ -25,7 +25,7 @@ public class Establishment {
         try {
             this.businessName = (String) obj.get("BusinessName");
             this.rating = (String) obj.get("RatingValue");
-            this.address_l1 = obj.get("AddressLine1").toString() + " " + obj.get("AddressLine2").toString();
+            this.address_l1 = (String) obj.get("AddressLine1");
             Log.e("Addres1: ", address_l1);
             this.address_l2 = (String) obj.get("AddressLine2");
         } catch (JSONException e) {

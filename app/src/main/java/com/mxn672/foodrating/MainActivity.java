@@ -1,6 +1,8 @@
 package com.mxn672.foodrating;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -37,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private BottomNavigationView bottomNavi;
+    private Intent intent;
 
     private ImageButton filterButton;
     private SearchView searchView;
-    private List<Establishment> establishmentsList = Collections.synchronizedList(new ArrayList<>());
+    private ArrayList<Establishment> establishmentsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +52,27 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavi = (BottomNavigationView) findViewById(R.id.bottom_navi);
         bottomNavi.setSelectedItemId(R.id.search);
+        ActivityOptions options = ActivityOptions
+                .makeSceneTransitionAnimation(this, bottomNavi, "bottom_navi");
+
         bottomNavi.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.map:
-                        Toast.makeText(getApplicationContext(), "Action MAP", Toast.LENGTH_SHORT).show();
-                        loadRecyclerData("name=Roosters");
+                        intent = new Intent(getApplicationContext(), MapActivity.class);
+                        startActivity(intent, options.toBundle());
                         break;
 
                     case R.id.search:
-                        Toast.makeText(getApplicationContext(), "Action SEARCH", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.profile:
-                    Toast.makeText(getApplicationContext(), "Action PROFILE", Toast.LENGTH_SHORT).show();
-                    break;
+                        intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intent, options.toBundle());
+                        break;
+
                 }
                 return true;
             }
@@ -167,6 +174,11 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(getRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
 

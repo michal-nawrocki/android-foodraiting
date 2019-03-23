@@ -13,15 +13,14 @@ import com.mxn672.foodrating.data.Establishment;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable {
 
-    public MyAdapter(List<Establishment> dataSet) {
+    public MyAdapter(ArrayList<Establishment> dataSet) {
         mDataset = dataSet;
     }
 
-    private List<Establishment> mDataset;
+    private ArrayList<Establishment> mDataset;
     private Filter establishmentsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
