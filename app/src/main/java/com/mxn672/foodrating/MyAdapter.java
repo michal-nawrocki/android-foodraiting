@@ -47,8 +47,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             eName = "";
         }
 
-        if(eName.length() >= 30){
-            holder.txtHeader.setText(eName.substring(0,30) + "...");
+        if(eName.length() >= 35){
+            holder.txtHeader.setText(eName.substring(0,35) + "...");
         }else{
             holder.txtHeader.setText(eName);
         }

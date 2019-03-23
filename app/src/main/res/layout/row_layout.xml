@@ -12,7 +12,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Example application"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <RatingBar
         android:id="@+id/rating_bar"
@@ -40,7 +40,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/rating_error"
         android:text="Address"
-        android:textSize="15sp"/>
+        android:textSize="12sp"/>
 
     <ImageButton
         android:id="@+id/row_favButton"
