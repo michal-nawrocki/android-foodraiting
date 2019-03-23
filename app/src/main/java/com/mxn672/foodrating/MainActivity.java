@@ -1,5 +1,7 @@
 package com.mxn672.foodrating;
 
+import android.app.LauncherActivity;
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +15,21 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mxn672.foodrating.data.Establishment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -25,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton filterButton;
 
 
-
+    private ArrayList<Establishment> establishmentsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.map:
                         Toast.makeText(getApplicationContext(), "Action MAP", Toast.LENGTH_SHORT).show();
-                        onRequestSearch();
-                        Log.e("result", "I search for data");
+                        loadRecyclerData("name=Roosters");
                         break;
 
                     case R.id.search:
@@ -69,11 +83,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
 
-        String[] input = new String[15];
-        for (int i = 0; i < 15; i++) {
-            input[i] = "Restaurant " + (i+1);
-        }
-
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -81,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(input);
+        mAdapter = new MyAdapter(establishmentsList);
         recyclerView.setAdapter(mAdapter);
+
     }
 
     private void showAlertDialog() {
@@ -91,11 +101,53 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show(fm, "filterDialog");
     }
 
+    private void loadRecyclerData(String filters){
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Fetching Data...");
+        progressDialog.show();
 
-    public void onRequestSearch() {
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(RequestHandler.setByName("Roosters"));
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?" + filters + "&address=Birmingham", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONArray array = response.getJSONArray("establishments");
+                            establishmentsList.clear();
+
+                            for(int i = 0; i < array.length(); i++){
+                                JSONObject data = array.getJSONObject(i);
+                                Establishment estb = new Establishment((String) data.get("BusinessName"));
+                                establishmentsList.add(estb);
+                            }
+
+                            mAdapter = new MyAdapter(establishmentsList);
+                            recyclerView.setAdapter(mAdapter);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("result", "Ups, got an error: " + error.getLocalizedMessage());
+                    }
+                }
+        ){
+            @Override
+            public Map getHeaders(){
+                HashMap headers = new HashMap();
+                headers.put("x-api-version", "2");
+                headers.put("format", "JSON");
+
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(getRequest);
     }
-
 
 }

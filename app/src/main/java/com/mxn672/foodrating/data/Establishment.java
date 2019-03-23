@@ -1,8 +1,8 @@
 package com.mxn672.foodrating.data;
 
 public class Establishment {
-    public String buinessName;
-    public String buinessType;
+    public String businessName;
+    public String businessType;
     public String address_l1;
     public String address_l2;
     public String address_l3;
@@ -13,4 +13,10 @@ public class Establishment {
     public String lon;
     public String lat;
     public String distance;
+
+
+    public Establishment(String businessName){
+
+        this.businessName = businessName;
+    }
 };

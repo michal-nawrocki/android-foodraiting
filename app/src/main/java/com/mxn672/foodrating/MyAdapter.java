@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mxn672.foodrating.data.Establishment;
+
+import java.util.ArrayList;
+
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-    private String[] mDataset;
+    private ArrayList<Establishment> mDataset;
 
 
-    public MyAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public MyAdapter(ArrayList<Establishment> dataSet) {
+        mDataset = dataSet;
     }
 
     @Override
@@ -27,11 +31,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.txtHeader.setText(mDataset[position]);
+        holder.txtHeader.setText(mDataset.get(position).businessName);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }
