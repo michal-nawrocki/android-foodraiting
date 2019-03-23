@@ -26,11 +26,14 @@ public class Establishment {
             this.businessName = (String) obj.get("BusinessName");
             this.rating = (String) obj.get("RatingValue");
             this.address_l1 = (String) obj.get("AddressLine1");
-            Log.e("Addres1: ", address_l1);
             this.address_l2 = (String) obj.get("AddressLine2");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getAddress_l1(){
+        return address_l1;
     }
 
 };

@@ -128,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
     private void loadRecyclerData(String filters){
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching Data...");
-        progressDialog.show();
+        //progressDialog.show();
 
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?name=" + filters + "&address=Birmingham&pageSize=20", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         try {
                             JSONArray array = response.getJSONArray("establishments");
                             establishmentsList.clear();

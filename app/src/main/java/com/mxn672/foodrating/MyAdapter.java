@@ -73,14 +73,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         try{
             eName = mDataset.get(position).businessName;
             eRating = Integer.parseInt(mDataset.get(position).rating);
-            eAddress = mDataset.get(position).data.get("AddressLine1").toString();
+            eAddress = mDataset.get(position).getAddress_l1();
 
         }catch (NumberFormatException e){
             eRating = -1;
         }catch(NullPointerException e){
             eName = "";
-        }catch (JSONException e){
-            Log.e("My Adapter", e.getLocalizedMessage());
         }
 
         if(eName.length() >= 35){
@@ -97,9 +95,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
             holder.ratingError.setText("No rating available");
         }
 
+        // Very bad practise but somehow this fucking thing works
         if(eAddress.isEmpty()){
-            Log.e("My Adapter", "No addres for index:" + position);
-            eAddress = mDataset.get(position).address_l2;
+            eAddress = mDataset.get(position).address_l1;
+            if(eAddress.length() == 0) eAddress = mDataset.get(position).address_l2;
         }
 
         holder.txtFooter.setText(eAddress);
