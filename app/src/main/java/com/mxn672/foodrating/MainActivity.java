@@ -1,6 +1,5 @@
 package com.mxn672.foodrating;
 
-import android.app.LauncherActivity;
 import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +24,12 @@ import com.android.volley.toolbox.Volley;
 import com.mxn672.foodrating.data.Establishment;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,9 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavi;
 
     private ImageButton filterButton;
-
-
-    private ArrayList<Establishment> establishmentsList = new ArrayList<>();
+    private SearchView searchView;
+    private List<Establishment> establishmentsList = Collections.synchronizedList(new ArrayList<>());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,23 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(establishmentsList);
         recyclerView.setAdapter(mAdapter);
 
+        searchView = findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                loadRecyclerData(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                //adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
 
     private void showAlertDialog() {
@@ -106,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Fetching Data...");
         progressDialog.show();
 
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?" + filters + "&address=Birmingham&pageSize=20", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?name=" + filters + "&address=Birmingham&pageSize=20", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -124,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                             mAdapter = new MyAdapter(establishmentsList);
                             recyclerView.setAdapter(mAdapter);
+                            mAdapter.notifyDataSetChanged();
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -150,5 +168,5 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(getRequest);
     }
-
 }
+

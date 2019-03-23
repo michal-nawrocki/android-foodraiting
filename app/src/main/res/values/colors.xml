@@ -20,4 +20,6 @@
     <color name="medium_green">#3d853e</color>
     <color name="light_green">#3c2ae668</color>
 
+    <color name="error_color">#FF0000</color>
+
 </resources>

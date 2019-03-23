@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <SearchView
+    <android.support.v7.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,11 +14,10 @@
         android:layout_toLeftOf="@id/searchView_filter"
         android:background="@android:color/white"
         android:gravity="start"
-        android:iconifiedByDefault="false"
         android:imeOptions="actionSearch"
         android:orientation="horizontal"
-        android:queryHint="Enter name" >
-    </SearchView>
+        app:iconifiedByDefault="false"
+        app:queryHint="Enter name"/>
 
     <ImageButton
         android:id="@+id/searchView_filter"
