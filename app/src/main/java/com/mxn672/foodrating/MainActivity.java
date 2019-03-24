@@ -188,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadRecyclerData(String filters){
+        findViewById(R.id.establishmentList).setVisibility(View.VISIBLE);
+        findViewById(R.id.listError).setVisibility(View.INVISIBLE);
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching Data...");
         //progressDialog.show();
@@ -209,9 +211,16 @@ public class MainActivity extends AppCompatActivity {
                                 establishmentsList.add(estb);
                             }
 
-                            mAdapter = new MyAdapter(establishmentsList);
-                            recyclerView.setAdapter(mAdapter);
-                            mAdapter.notifyDataSetChanged();
+                            if(establishmentsList.isEmpty()){
+                                findViewById(R.id.establishmentList).setVisibility(View.INVISIBLE);
+                                findViewById(R.id.listError).setVisibility(View.VISIBLE);
+                            }else{
+                                mAdapter = new MyAdapter(establishmentsList);
+                                recyclerView.setAdapter(mAdapter);
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+
 
                         } catch (Exception e) {
                             e.printStackTrace();

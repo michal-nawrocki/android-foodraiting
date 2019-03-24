@@ -12,6 +12,7 @@ import com.mxn672.foodrating.data.Establishment;
 
 import org.json.JSONException;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable {
@@ -69,11 +70,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         String eName = new String();
         Integer eRating = -1;
         String eAddress = new String();
+        String eDistance = new String();
 
         try{
             eName = mDataset.get(position).businessName;
             eRating = Integer.parseInt(mDataset.get(position).rating);
             eAddress = mDataset.get(position).getAddress_l1();
+            eDistance = mDataset.get(position).distance;
 
         }catch (NumberFormatException e){
             eRating = -1;
@@ -101,7 +104,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
             if(eAddress.length() == 0) eAddress = mDataset.get(position).address_l2;
         }
 
-        holder.txtFooter.setText(eAddress);
+        holder.txtFooter.setText(eDistance + " mi. away");
     }
 
     @Override

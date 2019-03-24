@@ -33,6 +33,18 @@
         app:srcCompat="@drawable/search_filter"/>
 
 
+    <TextView
+        android:id="@+id/listError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchView"
+        android:layout_above="@id/bottom_navi"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="No data found"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/establishmentList"
         android:layout_width="match_parent"

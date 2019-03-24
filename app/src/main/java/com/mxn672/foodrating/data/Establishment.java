@@ -5,6 +5,8 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 public class Establishment {
     public JSONObject data;
     public String businessName;
@@ -21,12 +23,14 @@ public class Establishment {
     public String distance;
 
     public Establishment(JSONObject obj){
+        DecimalFormat df2 = new DecimalFormat("#.##");
         this.data = obj;
         try {
             this.businessName = (String) obj.get("BusinessName");
             this.rating = (String) obj.get("RatingValue");
             this.address_l1 = (String) obj.get("AddressLine1");
             this.address_l2 = (String) obj.get("AddressLine2");
+            this.distance = df2.format(obj.get("Distance"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
