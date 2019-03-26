@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/establishmentFragment"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -93,8 +94,8 @@
         android:layout_below="@id/estb_inspectionDate"
         android:layout_alignStart="@id/estb_inspectionDateTitle"
         android:layout_alignParentRight="true"
-        android:text="Rating:"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:text="Rating:" />
 
     <RatingBar
         android:id="@+id/estb_rating"
@@ -118,4 +119,29 @@
         android:layout_marginStart="8dp"
         android:visibility="invisible"
         android:text="Error Message" />
+
+    <TextView
+        android:id="@+id/estb_favTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_alignStart="@id/estb_ratingTitle"
+        android:layout_below="@id/estb_ratingError"
+        android:textStyle="bold"
+        android:text="Favoured:"/>
+
+    <Switch
+        android:id="@+id/estb_favButton"
+        android:theme="@style/SCBSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estb_favTitle"
+        android:layout_alignStart="@id/estb_rating"
+        android:layout_alignEnd="@id/estb_rating"
+        android:showText="false"
+        android:splitTrack="false"
+        android:switchMinWidth="?android:attr/listPreferredItemHeightLarge"
+        />
+
 </RelativeLayout>

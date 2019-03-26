@@ -32,6 +32,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.mxn672.foodrating.fragments.EstablishmentFragment;
 import com.mxn672.foodrating.fragments.FilterDialog;
 import com.mxn672.foodrating.recyclerView.MyAdapter;
 import com.mxn672.foodrating.R;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EstablishmentFragment.NoticeDialogListener {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db, new ArrayList<Establishment>());
+        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
         recyclerView.setAdapter(mAdapter);
 
         // Search View Block
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                                 findViewById(R.id.establishmentList).setVisibility(View.INVISIBLE);
                                 findViewById(R.id.listError).setVisibility(View.VISIBLE);
                             }else{
-                                mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db, db.establishmentDao().getAll());
+                                mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
                                 recyclerView.setAdapter(mAdapter);
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -255,9 +256,21 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(getRequest);
     }
 
+
+
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void onDialogPositiveClick(Establishment estb) {
+
+        establishmentsList.remove(estb);
+        establishmentsList.add(estb);
+        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 }
 

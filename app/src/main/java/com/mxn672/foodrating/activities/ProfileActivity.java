@@ -9,24 +9,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
+import com.mxn672.foodrating.fragments.EstablishmentFragment;
 import com.mxn672.foodrating.recyclerView.MyAdapter;
 import com.mxn672.foodrating.recyclerView.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements EstablishmentFragment.NoticeDialogListener {
 
     private BottomNavigationView bottomNavi;
     private Intent intent;
     private ImageButton aboutButton;
     private ImageButton settingsButton;
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private MyAdapter mAdapter;
     private ArrayList<Establishment> favouriteList;
@@ -110,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
             findViewById(R.id.profile_error).setVisibility(View.INVISIBLE);
             favouriteList = (ArrayList) db.establishmentDao().getAll();
 
-            mAdapter = new MyAdapter(favouriteList, getSupportFragmentManager(), db, favouriteList);
+            mAdapter = new MyAdapter(favouriteList, getSupportFragmentManager(), db);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }else{
@@ -121,6 +123,23 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+    }
+
+    @Override
+    public void onDialogPositiveClick(Establishment estb) {
+
+
+        if(db.establishmentDao().getAll().isEmpty()){
+            findViewById(R.id.profile_recycler).setVisibility(View.INVISIBLE);
+            findViewById(R.id.profile_error).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.profile_recycler).setVisibility(View.VISIBLE);
+            findViewById(R.id.profile_error).setVisibility(View.INVISIBLE);
+            mAdapter = new MyAdapter((ArrayList) db.establishmentDao().getAll(), getSupportFragmentManager(), db);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
 
     }
 }

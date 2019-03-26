@@ -64,5 +64,7 @@ public class Establishment {
     public String getAddress_l1(){
         return address_l1;
     }
-
+    public String getAddress_postcode(){
+        return address_postcode;
+    }
 };

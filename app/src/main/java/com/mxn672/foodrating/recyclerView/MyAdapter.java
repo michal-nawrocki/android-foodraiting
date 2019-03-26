@@ -1,5 +1,6 @@
 package com.mxn672.foodrating.recyclerView;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Switch;
 
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
@@ -17,7 +19,7 @@ import com.mxn672.foodrating.fragments.EstablishmentFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable {
+public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable{
 
     public ArrayList<Establishment> mDataset;
     public ArrayList<Establishment> mFavourited;
@@ -25,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     private EstablishmentDatabase db;
 
     public MyAdapter(ArrayList<Establishment> dataSet, FragmentManager fragmentManager,
-                     EstablishmentDatabase db, List<Establishment> favoured) {
+                     EstablishmentDatabase db) {
         this.mDataset = dataSet;
         this.fragmentManager = fragmentManager;
         this.db = db;
@@ -63,7 +65,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         }
     };
 
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
@@ -80,16 +81,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
 
             @Override
             public void onClick(View v) {
-                Log.e("Favourited:", "At" + position);
-
                 if((Integer) holder.favourite.getTag() == 1){
                     holder.favourite.setImageResource(R.drawable.favourite_border);
                     holder.favourite.setTag(0);
+                    mDataset.get(position).favoured = false;
                     db.establishmentDao().deleteEstablishment(mDataset.get(position));
                     mFavourited.remove(mDataset.get(position));
                 }else{
                     holder.favourite.setImageResource(R.drawable.favourite_filled);
                     holder.favourite.setTag(1);
+                    mDataset.get(position).favoured = true;
                     mFavourited.add(mDataset.get(position));
                     db.establishmentDao().insertEstablishment(mDataset.get(position));
                 }
@@ -127,7 +128,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
 
         holder.favourite.setTag(0);
         for(Establishment estb : mFavourited){
-            if(estb.estb_id.equals(mDataset.get(position).estb_id) || estb.favoured == true){
+            Log.e(estb.businessName, "VaL: " + estb.favoured);
+            if(estb.estb_id.equals(mDataset.get(position).estb_id)){
                 holder.favourite.setImageResource(R.drawable.favourite_filled);
                 holder.favourite.setTag(1);
                 break;
@@ -148,12 +150,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
             holder.ratingError.setText("No rating available");
         }
 
-        // Very bad practise but somehow this fucking thing works
-        if(eAddress.isEmpty()){
-            eAddress = mDataset.get(position).address_l1;
-            if(eAddress.length() == 0) eAddress = mDataset.get(position).address_l2;
-        }
-
         if(eDistance.isEmpty()){
             holder.txtFooter.setVisibility(View.INVISIBLE);
         }else{
@@ -163,9 +159,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     }
 
     public void showEstablishmentFragment(Establishment data){
-        EstablishmentFragment establishmentFragment = new EstablishmentFragment(data);
+        EstablishmentFragment establishmentFragment = new EstablishmentFragment(data, db);
         establishmentFragment.show(this.fragmentManager, "Establishment");
-        notifyDataSetChanged();
     }
 
     @Override
@@ -177,5 +172,4 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     public Filter getFilter() {
         return establishmentsFilter;
     }
-
 }
