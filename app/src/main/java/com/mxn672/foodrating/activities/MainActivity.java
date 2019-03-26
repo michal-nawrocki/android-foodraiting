@@ -1,4 +1,4 @@
-package com.mxn672.foodrating;
+package com.mxn672.foodrating.activities;
 
 import android.Manifest;
 import android.app.ActivityOptions;
@@ -32,6 +32,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.mxn672.foodrating.fragments.FilterDialog;
+import com.mxn672.foodrating.recyclerView.MyAdapter;
+import com.mxn672.foodrating.R;
+import com.mxn672.foodrating.recyclerView.SimpleDividerItemDecoration;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -41,9 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {

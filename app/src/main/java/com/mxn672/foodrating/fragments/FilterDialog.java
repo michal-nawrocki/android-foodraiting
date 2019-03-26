@@ -1,4 +1,4 @@
-package com.mxn672.foodrating;
+package com.mxn672.foodrating.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+
+import com.mxn672.foodrating.R;
 
 public class FilterDialog extends DialogFragment {
     public FilterDialog() {

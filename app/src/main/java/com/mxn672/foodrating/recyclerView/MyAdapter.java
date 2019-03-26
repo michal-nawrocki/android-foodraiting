@@ -1,7 +1,5 @@
-package com.mxn672.foodrating;
+package com.mxn672.foodrating.recyclerView;
 
-import android.arch.persistence.room.Room;
-import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,10 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 
+import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
+import com.mxn672.foodrating.fragments.EstablishmentFragment;
 
 import java.util.ArrayList;
 import java.util.List;

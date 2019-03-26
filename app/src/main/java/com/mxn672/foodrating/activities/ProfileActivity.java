@@ -1,4 +1,4 @@
-package com.mxn672.foodrating;
+package com.mxn672.foodrating.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -7,7 +7,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.mxn672.foodrating.R;
 
 public class ProfileActivity extends AppCompatActivity {
 

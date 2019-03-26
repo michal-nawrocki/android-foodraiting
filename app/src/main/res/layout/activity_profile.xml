@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:background="@android:color/white"
-    tools:context=".ProfileActivity">
+    tools:context=".activities.ProfileActivity">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navi"

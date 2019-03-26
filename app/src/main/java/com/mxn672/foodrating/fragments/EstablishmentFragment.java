@@ -1,4 +1,4 @@
-package com.mxn672.foodrating;
+package com.mxn672.foodrating.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 
 @SuppressLint("ValidFragment")

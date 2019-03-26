@@ -1,4 +1,4 @@
-package com.mxn672.foodrating;
+package com.mxn672.foodrating.recyclerView;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.mxn672.foodrating.R;
 
 public class MyViewHolder extends RecyclerView.ViewHolder{
     public TextView txtHeader;
