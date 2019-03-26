@@ -67,7 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -153,7 +153,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
             if(eAddress.length() == 0) eAddress = mDataset.get(position).address_l2;
         }
 
-        holder.txtFooter.setText(eDistance + " mi. away");
+        if(eDistance.isEmpty()){
+            holder.txtFooter.setVisibility(View.INVISIBLE);
+        }else{
+            holder.txtFooter.setText(eDistance + " mi. away");
+
+        }
     }
 
 

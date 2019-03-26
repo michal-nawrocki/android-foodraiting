@@ -54,7 +54,7 @@
         android:background="@android:color/white"
         android:scrollbars="vertical"
         android:nestedScrollingEnabled="false"
-        tools:listitem="@layout/row_layout" />
+        tools:listitem="@layout/recycler_item" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navi"

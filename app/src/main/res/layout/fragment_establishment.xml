@@ -5,20 +5,32 @@
     android:layout_height="wrap_content"
     android:padding="?android:attr/dialogPreferredPadding">
 
+
     <TextView
-        android:id="@+id/estb_name"
+        android:id="@+id/estb_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Name" />
+        android:layout_marginBottom="8dp"
+        android:text="Buisness Type" />
+
+    <TextView
+        android:id="@+id/estb_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estb_type"
+        android:layout_alignParentLeft="true"
+        android:text="Address:" />
 
     <TextView
         android:id="@+id/estb_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/estb_name"
+        android:layout_alignStart="@id/estb_name"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="8dp"
         android:text="Address" />
 
     <RatingBar
@@ -28,10 +40,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
         android:progressTint="@color/purple"
         android:isIndicator="true"
         android:numStars="5"
         android:stepSize="1" />
+
+    <TextView
+        android:id="@+id/estb_ratingError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:text="Error Message" />
 
     <TextView
         android:id="@+id/estb_inspectionDate"
@@ -41,13 +63,5 @@
         android:layout_alignParentRight="true"
         android:gravity="center_horizontal"
         android:text="Inspection Date" />
-
-    <TextView
-        android:id="@+id/estb_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/estb_inspectionDate"
-        android:text="Buisness Type" />
 
 </RelativeLayout>

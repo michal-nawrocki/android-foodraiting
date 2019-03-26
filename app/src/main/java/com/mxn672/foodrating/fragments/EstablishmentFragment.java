@@ -3,6 +3,7 @@ package com.mxn672.foodrating.fragments;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
+
+import org.w3c.dom.Text;
 
 @SuppressLint("ValidFragment")
 public class EstablishmentFragment extends DialogFragment {
@@ -32,12 +35,49 @@ public class EstablishmentFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_establishment, null);
 
         // Setup all the view and populate them with the data of estb
-        TextView nameText = (TextView) view.findViewById(R.id.estb_name);
-        nameText.setText(estb.businessName);
+        TextView vAddres = view.findViewById(R.id.estb_address);
+        TextView vType = view.findViewById(R.id.estb_type);
+        TextView vDate = view.findViewById(R.id.estb_inspectionDate);
+        TextView vError = view.findViewById(R.id.estb_ratingError);
+        RatingBar vRating = view.findViewById(R.id.estb_rating);
 
-        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.estb_rating);
-        //ratingBar.setRating(estb.rating);
 
+        // Populate all views
+        String eName = new String();
+        Integer eRating = -1;
+        String eAddress = new String();
+        String eID = new String();
+        String eDate = new String();
+        String eType = new String();
+
+        try{
+            eID = estb.estb_id;
+            eName = estb.businessName;
+            eRating = Integer.parseInt(estb.rating);
+            eAddress = estb.getAddress_l1() + '\n' + estb.address_l2 + "\n" + estb.address_l3
+                + "\n" + estb.address_l4;
+            eDate = estb.date;
+            eType = estb.businessType;
+
+
+        }catch (NumberFormatException e){
+            eRating = -1;
+        }
+
+        if(eRating == -1){
+            vRating.setVisibility(View.INVISIBLE);
+            vError.setText(estb.rating);
+            vError.setVisibility(View.VISIBLE);
+        }else{
+            vRating.setRating(eRating);
+        }
+
+        vAddres.setText(eAddress);
+        vDate.setText("Issued: " + eDate.substring(0,10));
+        vType.setText(eType);
+
+        // Attach data to the builder
+        builder.setTitle(estb.businessName);
         builder.setView(view);
         builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
             @Override

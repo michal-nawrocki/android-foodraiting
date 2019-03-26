@@ -33,6 +33,7 @@ public class Establishment {
     public String lon;
     public String lat;
     public String distance;
+    public String date;
     public boolean favoured;
 
     public Establishment(String businessName){
@@ -45,10 +46,14 @@ public class Establishment {
         try {
             this.estb_id = (String) String.valueOf(obj.get("FHRSID"));
             this.businessName = (String) obj.get("BusinessName");
+            this.businessType = (String) obj.get("BusinessType");
             this.rating = (String) obj.get("RatingValue");
             this.address_l1 = (String) obj.get("AddressLine1");
             this.address_l2 = (String) obj.get("AddressLine2");
+            this.address_l3 = (String) obj.get("AddressLine3");
+            this.address_l4 = (String) obj.get("AddressLine4");
             this.distance = df2.format(obj.get("Distance"));
+            this.date = (String) obj.get("RatingDate");
             this.favoured = false;
         } catch (JSONException e) {
             e.printStackTrace();
