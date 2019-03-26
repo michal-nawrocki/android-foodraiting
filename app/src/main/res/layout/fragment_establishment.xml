@@ -7,20 +7,53 @@
 
 
     <TextView
-        android:id="@+id/estb_type"
+        android:id="@+id/estb_typeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="8dp"
-        android:text="Buisness Type" />
+        android:textStyle="bold"
+        android:text="Business Type:" />
+
+    <TextView
+        android:id="@+id/estb_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/estb_typeTitle"
+        android:layout_alignStart="@id/estb_typeTitle"
+        android:layout_marginStart="8dp"
+        android:text="Some Type" />
+
+    <TextView
+        android:id="@+id/estb_postTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estb_type"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentLeft="true"
+        android:textStyle="bold"
+        android:text="Postcode:" />
+
+    <TextView
+        android:id="@+id/estb_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estb_postTitle"
+        android:layout_alignStart="@id/estb_postTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="8dp"
+        android:text="B15 2TT" />
+
 
     <TextView
         android:id="@+id/estb_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/estb_type"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/estb_post"
         android:layout_alignParentLeft="true"
+        android:textStyle="bold"
         android:text="Address:" />
 
     <TextView
@@ -33,14 +66,44 @@
         android:layout_marginStart="8dp"
         android:text="Address" />
 
+    <TextView
+        android:id="@+id/estb_inspectionDateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:text="Inspection Date:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/estb_inspectionDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estb_inspectionDateTitle"
+        android:layout_alignStart="@id/estb_inspectionDateTitle"
+        android:layout_marginStart="8dp"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:text="1997-05-03" />
+
+    <TextView
+        android:id="@+id/estb_ratingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/estb_inspectionDate"
+        android:layout_alignStart="@id/estb_inspectionDateTitle"
+        android:layout_alignParentRight="true"
+        android:text="Rating:"
+        android:textStyle="bold" />
+
     <RatingBar
         android:id="@+id/estb_rating"
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="8dp"
+        android:layout_below="@id/estb_ratingTitle"
+        android:layout_alignStart="@id/estb_ratingTitle"
+        android:layout_marginStart="8dp"
         android:progressTint="@color/purple"
         android:isIndicator="true"
         android:numStars="5"
@@ -50,18 +113,9 @@
         android:id="@+id/estb_ratingError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_below="@id/estb_ratingTitle"
+        android:layout_alignStart="@id/estb_ratingTitle"
+        android:layout_marginStart="8dp"
         android:visibility="invisible"
         android:text="Error Message" />
-
-    <TextView
-        android:id="@+id/estb_inspectionDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/estb_rating"
-        android:layout_alignParentRight="true"
-        android:gravity="center_horizontal"
-        android:text="Inspection Date" />
-
 </RelativeLayout>

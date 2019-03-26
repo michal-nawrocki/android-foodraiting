@@ -52,6 +52,7 @@ public class Establishment {
             this.address_l2 = (String) obj.get("AddressLine2");
             this.address_l3 = (String) obj.get("AddressLine3");
             this.address_l4 = (String) obj.get("AddressLine4");
+            this.address_postcode = (String) obj.get("PostCode");
             this.distance = df2.format(obj.get("Distance"));
             this.date = (String) obj.get("RatingDate");
             this.favoured = false;

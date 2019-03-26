@@ -40,26 +40,27 @@ public class EstablishmentFragment extends DialogFragment {
         TextView vDate = view.findViewById(R.id.estb_inspectionDate);
         TextView vError = view.findViewById(R.id.estb_ratingError);
         RatingBar vRating = view.findViewById(R.id.estb_rating);
-
+        TextView vPostCode = view.findViewById(R.id.estb_post);
 
         // Populate all views
         String eName = new String();
         Integer eRating = -1;
         String eAddress = new String();
+        String ePostCode = new String();
         String eID = new String();
         String eDate = new String();
         String eType = new String();
 
-        try{
-            eID = estb.estb_id;
-            eName = estb.businessName;
-            eRating = Integer.parseInt(estb.rating);
-            eAddress = estb.getAddress_l1() + '\n' + estb.address_l2 + "\n" + estb.address_l3
+        eID = estb.estb_id;
+        eName = estb.businessName;
+        eAddress = estb.getAddress_l1() + '\n' + estb.address_l2 + "\n" + estb.address_l3
                 + "\n" + estb.address_l4;
-            eDate = estb.date;
-            eType = estb.businessType;
+        eDate = estb.date;
+        eType = estb.businessType;
+        ePostCode = estb.address_postcode;
 
-
+        try{
+            eRating = Integer.parseInt(estb.rating);
         }catch (NumberFormatException e){
             eRating = -1;
         }
@@ -73,8 +74,13 @@ public class EstablishmentFragment extends DialogFragment {
         }
 
         vAddres.setText(eAddress);
-        vDate.setText("Issued: " + eDate.substring(0,10));
+        if(eDate.isEmpty() || eDate.substring(0,10).equals("1901-01-01")){
+            vDate.setText("No date");
+        }else{
+            vDate.setText(eDate.substring(0,10));
+        }
         vType.setText(eType);
+        vPostCode.setText(ePostCode);
 
         // Attach data to the builder
         builder.setTitle(estb.businessName);

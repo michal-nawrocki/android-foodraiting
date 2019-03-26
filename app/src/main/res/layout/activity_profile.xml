@@ -19,6 +19,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:padding="8dp"
         android:textColor="@color/purple"
+        android:textStyle="bold"
         android:text="Your Favourites"/>
 
     <ImageButton

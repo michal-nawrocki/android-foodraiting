@@ -114,23 +114,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         try{
             eID = mDataset.get(position).estb_id;
             eName = mDataset.get(position).businessName;
-            eRating = Integer.parseInt(mDataset.get(position).rating);
+
             eAddress = mDataset.get(position).getAddress_l1();
             eDistance = mDataset.get(position).distance;
 
-            holder.favourite.setTag(0);
-            for(Establishment estb : mFavourited){
-                if(estb.estb_id.equals(mDataset.get(position).estb_id)){
-                    holder.favourite.setImageResource(R.drawable.favourite_filled);
-                    holder.favourite.setTag(1);
-                    break;
-                }
-            }
-
+            eRating = Integer.parseInt(mDataset.get(position).rating);
         }catch (NumberFormatException e){
             eRating = -1;
         }catch(NullPointerException e){
             eName = "";
+        }
+
+        holder.favourite.setTag(0);
+        for(Establishment estb : mFavourited){
+            if(estb.estb_id.equals(mDataset.get(position).estb_id) || estb.favoured == true){
+                holder.favourite.setImageResource(R.drawable.favourite_filled);
+                holder.favourite.setTag(1);
+                break;
+            }
         }
 
         if(eName.length() >= 35){
@@ -161,10 +162,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         }
     }
 
-
     public void showEstablishmentFragment(Establishment data){
         EstablishmentFragment establishmentFragment = new EstablishmentFragment(data);
         establishmentFragment.show(this.fragmentManager, "Establishment");
+        notifyDataSetChanged();
     }
 
     @Override
