@@ -112,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity implements EstablishmentF
             findViewById(R.id.profile_error).setVisibility(View.INVISIBLE);
             favouriteList = (ArrayList) db.establishmentDao().getAll();
 
-            mAdapter = new MyAdapter(favouriteList, getSupportFragmentManager(), db);
+            mAdapter = new MyAdapter(favouriteList, getSupportFragmentManager(), db, true);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }else{
@@ -136,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity implements EstablishmentF
         }else{
             findViewById(R.id.profile_recycler).setVisibility(View.VISIBLE);
             findViewById(R.id.profile_error).setVisibility(View.INVISIBLE);
-            mAdapter = new MyAdapter((ArrayList) db.establishmentDao().getAll(), getSupportFragmentManager(), db);
+            mAdapter = new MyAdapter((ArrayList) db.establishmentDao().getAll(), getSupportFragmentManager(), db, true);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }

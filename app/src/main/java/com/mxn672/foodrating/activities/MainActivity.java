@@ -265,9 +265,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
 
     @Override
     public void onDialogPositiveClick(Establishment estb) {
-
-        establishmentsList.remove(estb);
-        establishmentsList.add(estb);
+        establishmentsList.set(establishmentsList.indexOf(estb),estb);
         mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();

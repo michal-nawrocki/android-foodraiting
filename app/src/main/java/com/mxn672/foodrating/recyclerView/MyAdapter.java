@@ -25,14 +25,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     public ArrayList<Establishment> mFavourited;
     public FragmentManager fragmentManager;
     private EstablishmentDatabase db;
+    private Boolean fav;
 
     public MyAdapter(ArrayList<Establishment> dataSet, FragmentManager fragmentManager,
                      EstablishmentDatabase db) {
         this.mDataset = dataSet;
         this.fragmentManager = fragmentManager;
         this.db = db;
-
         this.mFavourited = (ArrayList<Establishment>) db.establishmentDao().getAll();
+        fav = false;
+    }
+
+    public MyAdapter(ArrayList<Establishment> dataSet, FragmentManager fragmentManager,
+                     EstablishmentDatabase db, boolean isFav) {
+        this.mDataset = dataSet;
+        this.fragmentManager = fragmentManager;
+        this.db = db;
+        this.mFavourited = (ArrayList<Establishment>) db.establishmentDao().getAll();
+        fav = true;
+
     }
 
     private Filter establishmentsFilter = new Filter() {
@@ -87,6 +98,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
                     mDataset.get(position).favoured = false;
                     db.establishmentDao().deleteEstablishment(mDataset.get(position));
                     mFavourited.remove(mDataset.get(position));
+                    if(fav){
+                        mDataset.remove(position);
+                        notifyDataSetChanged();
+                    }
                 }else{
                     holder.favourite.setImageResource(R.drawable.favourite_filled);
                     holder.favourite.setTag(1);
