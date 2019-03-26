@@ -3,6 +3,7 @@ package com.mxn672.foodrating;
 import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.mxn672.foodrating.data.Establishment;
+import com.mxn672.foodrating.data.EstablishmentDatabase;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
@@ -54,11 +56,14 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton filterButton;
     private SearchView searchView;
     private ArrayList<Establishment> establishmentsList = new ArrayList<>();
+    private ArrayList<Establishment> favouritedEstb = new ArrayList<>();
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private double lon;
     private double lat;
+
+    private EstablishmentDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Get GPS position for location search
         callPermissions();
+
+        // Get Databse setup
+        db = Room.databaseBuilder(getApplicationContext(), EstablishmentDatabase .class, "estb-database").allowMainThreadQueries().build();
 
         // Bottom Navigation block
         bottomNavi = (BottomNavigationView) findViewById(R.id.bottom_navi);
@@ -116,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager());
+        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db, new ArrayList<Establishment>());
         recyclerView.setAdapter(mAdapter);
 
 
@@ -218,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                                 findViewById(R.id.establishmentList).setVisibility(View.INVISIBLE);
                                 findViewById(R.id.listError).setVisibility(View.VISIBLE);
                             }else{
-                                mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager());
+                                mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db, db.establishmentDao().getAll());
                                 recyclerView.setAdapter(mAdapter);
                                 mAdapter.notifyDataSetChanged();
                             }

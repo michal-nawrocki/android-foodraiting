@@ -1,5 +1,7 @@
 package com.mxn672.foodrating;
 
+import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,16 +13,25 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 
 import com.mxn672.foodrating.data.Establishment;
+import com.mxn672.foodrating.data.EstablishmentDatabase;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable {
 
     public ArrayList<Establishment> mDataset;
+    public ArrayList<Establishment> mFavourited;
     public FragmentManager fragmentManager;
+    private EstablishmentDatabase db;
 
-    public MyAdapter(ArrayList<Establishment> dataSet, FragmentManager fragmentManager) {
+    public MyAdapter(ArrayList<Establishment> dataSet, FragmentManager fragmentManager,
+                     EstablishmentDatabase db, List<Establishment> favoured) {
         this.mDataset = dataSet;
         this.fragmentManager = fragmentManager;
+        this.db = db;
+
+        this.mFavourited = (ArrayList<Establishment>) db.establishmentDao().getAll();
     }
 
     private Filter establishmentsFilter = new Filter() {
@@ -58,7 +69,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
-
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -72,6 +82,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
             @Override
             public void onClick(View v) {
                 Log.e("Favourited:", "At" + position);
+
+                if((Integer) holder.favourite.getTag() == 1){
+                    holder.favourite.setImageResource(R.drawable.favourite_border);
+                    holder.favourite.setTag(0);
+                    db.establishmentDao().deleteEstablishment(mDataset.get(position));
+                    mFavourited.remove(mDataset.get(position));
+                }else{
+                    holder.favourite.setImageResource(R.drawable.favourite_filled);
+                    holder.favourite.setTag(1);
+                    mFavourited.add(mDataset.get(position));
+                    db.establishmentDao().insertEstablishment(mDataset.get(position));
+                }
             }
         });
 
@@ -88,12 +110,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         Integer eRating = -1;
         String eAddress = new String();
         String eDistance = new String();
+        String eID = new String();
 
         try{
+            eID = mDataset.get(position).estb_id;
             eName = mDataset.get(position).businessName;
             eRating = Integer.parseInt(mDataset.get(position).rating);
             eAddress = mDataset.get(position).getAddress_l1();
             eDistance = mDataset.get(position).distance;
+
+            holder.favourite.setTag(0);
+            for(Establishment estb : mFavourited){
+                if(estb.estb_id.equals(mDataset.get(position).estb_id)){
+                    holder.favourite.setImageResource(R.drawable.favourite_filled);
+                    holder.favourite.setTag(1);
+                    break;
+                }
+            }
 
         }catch (NumberFormatException e){
             eRating = -1;

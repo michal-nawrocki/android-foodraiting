@@ -2,6 +2,7 @@ package com.mxn672.foodrating.data;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import org.json.JSONException;
@@ -12,8 +13,6 @@ import java.text.DecimalFormat;
 @Entity
 public class Establishment {
 
-    public JSONObject data;
-
     @PrimaryKey
     @NonNull
     public String estb_id;
@@ -21,6 +20,8 @@ public class Establishment {
     @ColumnInfo(name = "book_title")
     public String businessName;
 
+    @Ignore
+    public JSONObject data;
     public String businessType;
     public String address_l1;
     public String address_l2;
@@ -34,11 +35,15 @@ public class Establishment {
     public String distance;
     public boolean favoured;
 
+    public Establishment(String businessName){
+        this.businessName = businessName;
+    }
+
     public Establishment(JSONObject obj){
         DecimalFormat df2 = new DecimalFormat("#.##");
         this.data = obj;
         try {
-            this.estb_id = (String) obj.get("FHRSID");
+            this.estb_id = (String) String.valueOf(obj.get("FHRSID"));
             this.businessName = (String) obj.get("BusinessName");
             this.rating = (String) obj.get("RatingValue");
             this.address_l1 = (String) obj.get("AddressLine1");
