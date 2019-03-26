@@ -4,16 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@android:color/white"
     tools:context=".activities.ProfileActivity">
 
+
+    <TextView
+        android:id="@+id/profile_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:padding="8dp"
+        android:textColor="@color/purple"
+        android:text="Your Favourites"/>
+
+    <ImageButton
+        android:id="@+id/profile_about"
+        android:tint="@color/purple"
+        android:padding="9dp"
+        android:background="@android:color/white"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/info_outline" />
+
+    <ImageButton
+        android:id="@+id/profile_settings"
+        android:tint="@color/purple"
+        android:background="@android:color/white"
+        android:padding="9dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/more" />
+
+    <View
+        android:id="@+id/profile_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/profile_title"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/profile_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_divider"
+        android:layout_above="@id/profile_navi"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="You have no favourites"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/profile_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_below="@id/profile_divider"
+        android:layout_above="@id/profile_navi"
+        android:scrollbars="vertical"
+        android:nestedScrollingEnabled="false"
+        tools:listitem="@layout/row_layout" />
+
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navi"
+        android:id="@+id/profile_navi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:layout_alignParentBottom="true"
         android:transitionName="bottom_navi"
         app:menu="@menu/bottom_menu" />
+
 </RelativeLayout>
