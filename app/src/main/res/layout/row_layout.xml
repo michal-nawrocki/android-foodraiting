@@ -54,4 +54,11 @@
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/favourite_border" />
 
+    <Button
+        android:id="@+id/row_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:layout_toLeftOf="@id/row_favButton"/>
+
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.mxn672.foodrating;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,21 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 
 import com.mxn672.foodrating.data.Establishment;
-
-import org.json.JSONException;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable {
 
-    public MyAdapter(ArrayList<Establishment> dataSet) {
-        mDataset = dataSet;
+    public ArrayList<Establishment> mDataset;
+    public FragmentManager fragmentManager;
+
+    public MyAdapter(ArrayList<Establishment> dataSet, FragmentManager fragmentManager) {
+        this.mDataset = dataSet;
+        this.fragmentManager = fragmentManager;
     }
 
-    private ArrayList<Establishment> mDataset;
     private Filter establishmentsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -64,9 +65,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
 
+        // Setup of listeners
+        holder.favourite.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.e("Favourited:", "At" + position);
+            }
+        });
+
+        holder.rowButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+               showEstablishmentFragment(mDataset.get(position));
+            }
+        });
+
+        // Pupulating the layout based on data
         String eName = new String();
         Integer eRating = -1;
         String eAddress = new String();
@@ -107,6 +124,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         holder.txtFooter.setText(eDistance + " mi. away");
     }
 
+
+    public void showEstablishmentFragment(Establishment data){
+        EstablishmentFragment establishmentFragment = new EstablishmentFragment(data);
+        establishmentFragment.show(this.fragmentManager, "Establishment");
+    }
+
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -116,6 +139,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     public Filter getFilter() {
         return establishmentsFilter;
     }
-
 
 }

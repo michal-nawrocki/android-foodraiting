@@ -65,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Get GPS position for location search
         callPermissions();
 
+        // Bottom Navigation block
         bottomNavi = (BottomNavigationView) findViewById(R.id.bottom_navi);
         bottomNavi.setSelectedItemId(R.id.search);
         ActivityOptions options = ActivityOptions
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Filter Button block
         filterButton = findViewById(R.id.searchView_filter);
         filterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -103,22 +106,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // RecyclerView Block
         recyclerView = (RecyclerView) findViewById(R.id.establishmentList);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(establishmentsList);
+        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager());
         recyclerView.setAdapter(mAdapter);
 
-        searchView = findViewById(R.id.searchView);
 
+        // Search View Block
+        searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                                 findViewById(R.id.establishmentList).setVisibility(View.INVISIBLE);
                                 findViewById(R.id.listError).setVisibility(View.VISIBLE);
                             }else{
-                                mAdapter = new MyAdapter(establishmentsList);
+                                mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager());
                                 recyclerView.setAdapter(mAdapter);
                                 mAdapter.notifyDataSetChanged();
                             }
