@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.mxn672.foodrating.R;
-import com.mxn672.foodrating.data.QueryType;
+import com.mxn672.foodrating.fragments.interfaces.FilterDialogListener;
 
 public class FilterDialog extends DialogFragment{
     private View view;
@@ -23,12 +23,8 @@ public class FilterDialog extends DialogFragment{
 
     }
 
-    public interface NoticeDialogListener {
-        public void onDialogPositiveClick(QueryType qr);
-    }
-
     // Use this instance of the interface to deliver action events
-    NoticeDialogListener listener;
+    FilterDialogListener listener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -37,7 +33,7 @@ public class FilterDialog extends DialogFragment{
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            listener = (NoticeDialogListener) context;
+            listener = (FilterDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
@@ -56,7 +52,7 @@ public class FilterDialog extends DialogFragment{
         // Spinner SearchBy setup
         Spinner fSearchBy = view.findViewById(R.id.filter_searchBy);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.array_filter, android.R.layout.simple_spinner_item);
+                R.array.array_filterBy, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fSearchBy.setAdapter(adapter);
         fSearchBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -74,11 +70,12 @@ public class FilterDialog extends DialogFragment{
 
 
         builder.setView(view);
-        builder.setPositiveButton("Filter",  new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Apply",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // on success
 
+                listener.onDialogPositiveClick(null);
             }
         });
 

@@ -9,20 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
-import com.mxn672.foodrating.fragments.EstablishmentFragment;
+import com.mxn672.foodrating.fragments.interfaces.EstablishmentDialogListener;
 import com.mxn672.foodrating.recyclerView.MyAdapter;
 import com.mxn672.foodrating.recyclerView.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity implements EstablishmentFragment.NoticeDialogListener {
+public class ProfileActivity extends AppCompatActivity implements EstablishmentDialogListener {
 
     private BottomNavigationView bottomNavi;
     private Intent intent;

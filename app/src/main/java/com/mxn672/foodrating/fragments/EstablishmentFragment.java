@@ -4,14 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Rating;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -19,8 +17,7 @@ import android.widget.TextView;
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
-
-import org.w3c.dom.Text;
+import com.mxn672.foodrating.fragments.interfaces.EstablishmentDialogListener;
 
 @SuppressLint("ValidFragment")
 public class EstablishmentFragment extends DialogFragment {
@@ -33,12 +30,9 @@ public class EstablishmentFragment extends DialogFragment {
         this.db = db;
     }
 
-    public interface NoticeDialogListener {
-        public void onDialogPositiveClick(Establishment estb);
-    }
 
     // Use this instance of the interface to deliver action events
-    NoticeDialogListener listener;
+    EstablishmentDialogListener listener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -47,7 +41,7 @@ public class EstablishmentFragment extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            listener = (NoticeDialogListener) context;
+            listener = (EstablishmentDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()

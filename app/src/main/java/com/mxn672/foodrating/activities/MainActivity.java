@@ -3,7 +3,6 @@ package com.mxn672.foodrating.activities;
 import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
-import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
@@ -34,8 +33,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
-import com.mxn672.foodrating.fragments.EstablishmentFragment;
 import com.mxn672.foodrating.fragments.FilterDialog;
+import com.mxn672.foodrating.fragments.interfaces.EstablishmentDialogListener;
+import com.mxn672.foodrating.fragments.interfaces.FilterDialogListener;
 import com.mxn672.foodrating.recyclerView.MyAdapter;
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.recyclerView.SimpleDividerItemDecoration;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements EstablishmentFragment.NoticeDialogListener, FilterDialog.NoticeDialogListener {
+public class MainActivity extends AppCompatActivity implements EstablishmentDialogListener, FilterDialogListener {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -282,7 +282,8 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
 
     @Override
     public void onDialogPositiveClick(QueryType qr) {
-
+        Log.e("Filter Dialog", "Set new values from filter");
+        queryBy = qr;
     }
 }
 
