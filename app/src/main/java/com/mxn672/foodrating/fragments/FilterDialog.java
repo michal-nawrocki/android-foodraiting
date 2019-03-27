@@ -15,16 +15,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.mxn672.foodrating.R;
-import com.mxn672.foodrating.data.FilterType;
+import com.mxn672.foodrating.data.SortType;
 import com.mxn672.foodrating.data.QueryDistance;
 import com.mxn672.foodrating.data.QueryType;
+import com.mxn672.foodrating.data.api.BusinessType;
+import com.mxn672.foodrating.data.api.Region;
 import com.mxn672.foodrating.fragments.interfaces.FilterDialogListener;
 
 public class FilterDialog extends DialogFragment{
     private View view;
     private QueryType searchBy = QueryType.NAME;
     private QueryDistance maxDistance = QueryDistance.THREE_MILES;
-    private FilterType filterBy = FilterType.DISTANCE;
+    private SortType sortType = SortType.DISTANCE;
+    private Region filterRegion = Region.NULL;
+    private BusinessType businessType = BusinessType.NULL;
 
     // Save preferences using this
     SharedPreferences.Editor editor;
@@ -93,6 +97,8 @@ public class FilterDialog extends DialogFragment{
                     case "Post Code":
                         searchBy = QueryType.POSTCODE;
                         break;
+                    case "Location":
+                        searchBy = QueryType.LOCATION;
                 }
                 Log.e("Spinner of " + id, "Value: " + result);
             }
@@ -150,41 +156,41 @@ public class FilterDialog extends DialogFragment{
         });
 
 
-        // Spinner FilterBy setup
-        Spinner fFilterBy = view.findViewById(R.id.sort_sortSpinner);
+        // Spinner SortBy setup
+        Spinner fsortBy = view.findViewById(R.id.sort_sortSpinner);
         ArrayAdapter<CharSequence> adapter_fFilterBy = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_sortBy, android.R.layout.simple_spinner_item);
         adapter_fFilterBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fFilterBy.setAdapter(adapter_fFilterBy);
-        fFilterBy.setSelection(prefs.getInt("filterBy_selected", 3));
-        fFilterBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        fsortBy.setAdapter(adapter_fFilterBy);
+        fsortBy.setSelection(prefs.getInt("filterBy_selected", 3));
+        fsortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String result = parent.getItemAtPosition(position).toString();
 
                 // Store preference
-                editor.putInt("filterBy_selected", fFilterBy.getSelectedItemPosition());
+                editor.putInt("filterBy_selected", fsortBy.getSelectedItemPosition());
                 editor.apply();
 
                 // Get the corresponding QueryDistance
                 switch (result){
                     case "Business Type":
-                        filterBy = FilterType.TYPE;
+                        sortType = SortType.TYPE;
                         break;
                     case "Inspection Date":
-                        filterBy = FilterType.DATE;
+                        sortType = SortType.DATE;
                         break;
                     case "Local Authority":
-                        filterBy = FilterType.AUTHORITY;
+                        sortType = SortType.AUTHORITY;
                         break;
                     case "Distance":
-                        filterBy = FilterType.DISTANCE;
+                        sortType = SortType.DISTANCE;
                         break;
                     case "Rating":
-                        filterBy = FilterType.RATING;
+                        sortType = SortType.RATING;
                         break;
                     case "Region":
-                        filterBy = FilterType.REGION;
+                        sortType = SortType.REGION;
                         break;
                 }
 
@@ -196,6 +202,177 @@ public class FilterDialog extends DialogFragment{
             }
         });
 
+        // Spinner region setup
+        Spinner fRegion = view.findViewById(R.id.filter_regionSpinner);
+        ArrayAdapter<CharSequence> adapter_fRegion = ArrayAdapter.createFromResource(getActivity(),
+                R.array.array_region, android.R.layout.simple_spinner_item);
+        fRegion.setAdapter(adapter_fRegion);
+        fRegion.setSelection(prefs.getInt("filter_region",5));
+        fRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String result = parent.getItemAtPosition(position).toString();
+
+                // Store preference
+                editor.putInt("filter_region", fRegion.getSelectedItemPosition());
+                editor.apply();
+
+                // Get the corresponding Region
+                switch (result){
+                    case "East Counties":
+                        filterRegion = Region.EC;
+                        break;
+                    case "East Midlands":
+                        filterRegion = Region.EM;
+                        break;
+                    case "London":
+                        filterRegion = Region.LDN;
+                        break;
+                    case "North East":
+                        filterRegion = Region.NE;
+                        break;
+                    case "North West":
+                        filterRegion = Region.NW;
+                        break;
+                    case "South East":
+                        filterRegion = Region.SE;
+                        break;
+                    case "South West":
+                        filterRegion = Region.SW;
+                        break;
+                    case "West Midlands":
+                        filterRegion = Region.WM;
+                        break;
+                    case "Yorkshire and Humberside":
+                        filterRegion = Region.YH;
+                        break;
+                    case "Northern Ireland":
+                        filterRegion = Region.NI;
+                        break;
+                    case "Wales":
+                        filterRegion = Region.WALS;
+                        break;
+                    default:
+                        filterRegion = Region.NULL;
+                        break;
+                }
+
+                Log.e("Spinner of " + id, "Value: " + result);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        // Spinner type setup
+        Spinner fType = view.findViewById(R.id.filter_typeSpinner);
+        ArrayAdapter<CharSequence> adapter_fType = ArrayAdapter.createFromResource(getActivity(),
+                R.array.array_businessType, android.R.layout.simple_spinner_item);
+        fType.setAdapter(adapter_fType);
+        fType.setSelection(prefs.getInt("filter_type", 0));
+        fType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String result = parent.getItemAtPosition(position).toString();
+
+                // Store preference
+                editor.putInt("filter_type", fType.getSelectedItemPosition());
+                editor.apply();
+
+                switch(result){
+                    case "Bars":
+                        businessType = BusinessType.BAR;
+                        break;
+                    case "Distributors":
+                        businessType = BusinessType.DISTRIBUTORS;
+                        break;
+                    case "Farmers":
+                        businessType = BusinessType.FARMERS;
+                        break;
+                    case "Hospitals":
+                        businessType = BusinessType.HOSPITAS;
+                        break;
+                    case "Hotels":
+                        businessType = BusinessType.HOTELS;
+                        break;
+                    case "Importers":
+                        businessType = BusinessType.IMPORTERS;
+                        break;
+                    case "Manufactures":
+                        businessType = BusinessType.MANUFACTURES;
+                        break;
+                    case "Mobile":
+                        businessType = BusinessType.MOBILE;
+                        break;
+                    case "Other":
+                        businessType = BusinessType.OTHER;
+                        break;
+                    case "Restaurants":
+                        businessType = BusinessType.RESTAURANT;
+                        break;
+                    case "Retailers":
+                        businessType = BusinessType.RETAILERS;
+                        break;
+                    case "Schools":
+                        businessType = BusinessType.SCHOOL;
+                        break;
+                    case "Supermarkets":
+                        businessType = BusinessType.SUPERMARKETS;
+                        break;
+                    case "Takeaways":
+                        businessType = BusinessType.TAKEAWAYS;
+                        break;
+                    case "Empty":
+                        businessType = BusinessType.NULL;
+                        break;
+                }
+                Log.e("Spinner of " + id, "Value: " + result);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // Spinner ratingOP setup
+        Spinner fRatingOP = view.findViewById(R.id.filter_ratingOPSpinner);
+        ArrayAdapter<CharSequence> adapter_fRatingOP= ArrayAdapter.createFromResource(getActivity(),
+                R.array.array_ratingOP, android.R.layout.simple_spinner_item);
+        fRatingOP.setAdapter(adapter_fRatingOP);
+        fRatingOP.setSelection(prefs.getInt("filter_ratingOP", 0));
+        fRatingOP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // Spinner ratingVAL setup
+        Spinner fRatingVAL = view.findViewById(R.id.filter_ratingVALSpinner);
+        Integer[] values = new Integer[]{0,1,2,3,4,5};
+        ArrayAdapter<Integer> adapter_fRatingVAL = new ArrayAdapter<Integer>(getActivity(), android.R.layout.simple_spinner_item, values);
+        fRatingVAL.setAdapter(adapter_fRatingVAL);
+        fRatingVAL.setSelection(prefs.getInt("filter_ratingVAL", 5));
+        fRatingVAL.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         builder.setView(view);
         builder.setPositiveButton("Apply",  new DialogInterface.OnClickListener() {
@@ -203,7 +380,7 @@ public class FilterDialog extends DialogFragment{
             public void onClick(DialogInterface dialog, int which) {
                 // on success
 
-                listener.onDialogPositiveClick(searchBy, maxDistance, filterBy);
+                listener.onDialogPositiveClick(searchBy, maxDistance, sortType);
             }
         });
 

@@ -1,7 +1,0 @@
-<resources>
-    <string-array name="array_authority">
-        <item>Ascending</item>
-        <item>Descending</item>
-        <item>Disable</item>
-    </string-array>
-</resources>

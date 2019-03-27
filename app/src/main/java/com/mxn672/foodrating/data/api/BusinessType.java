@@ -6,7 +6,7 @@ public enum BusinessType {
     IMPORTERS(14, "Importers/Exporters"), MANUFACTURES(7839, "Manufacturers/packers"), MOBILE(7864, "Mobile caterer"),
     OTHER(7841, "Other catering premises"), BAR(7843, "Pub/bar/nightclub"), RESTAURANT(1, "Restaurant/Cafe/Canteen"),
     RETAILERS(4613, "Retailers - other"), SUPERMARKETS(7840, "Retailers - supermarkets/hypermarkets"),
-    SCHOOL(7845, "School/college/university"), TAKEAWAYS(7844, "Takeaway/sandwich shop");
+    SCHOOL(7845, "School/college/university"), TAKEAWAYS(7844, "Takeaway/sandwich shop"), NULL(-420, "TOP KEK");
 
     public int id;
     public String name;

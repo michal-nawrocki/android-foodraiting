@@ -1,7 +1,16 @@
 <resources>
     <string-array name="array_region">
-        <item>Ascending</item>
-        <item>Descending</item>
-        <item>Disable</item>
+        <item>East Counties</item>
+        <item>East Midlands</item>
+        <item>London</item>
+        <item>North East</item>
+        <item>North West</item>
+        <item>South East</item>
+        <item>South West</item>
+        <item>West Midlands</item>
+        <item>Yorkshire and Humberside</item>
+        <item>Northern Ireland</item>
+        <item>Wales</item>
+        <item>Empty</item>
     </string-array>
 </resources>

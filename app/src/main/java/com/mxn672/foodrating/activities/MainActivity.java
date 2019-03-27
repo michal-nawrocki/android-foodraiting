@@ -31,7 +31,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
-import com.mxn672.foodrating.data.FilterType;
+import com.mxn672.foodrating.data.SortType;
 import com.mxn672.foodrating.data.QueryDistance;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     private QueryHolder requestQuery;
     private QueryType queryBy = QueryType.NAME;
     private QueryDistance queryDistance = QueryDistance.THREE_MILES;
-    private FilterType filter = FilterType.DISTANCE;
+    private SortType filter = SortType.DISTANCE;
     private double lon;
     private double lat;
 
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
                 }else{
                     requestQuery = new QueryHolder(queryBy, keyword, queryDistance, lon, lat);
                 }
+
                 loadRecyclerData(requestQuery);
                 return false;
             }
@@ -284,11 +285,21 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     }
 
     @Override
-    public void onDialogPositiveClick(QueryType qr_type, QueryDistance qr_distance, FilterType filter) {
+    public void onDialogPositiveClick(QueryType qr_type, QueryDistance qr_distance, SortType filter) {
         Log.e("Filter Dialog", "Set new values from filter");
         queryBy = qr_type;
         queryDistance = qr_distance;
         this.filter = filter;
+
+        if(queryBy.equals(QueryType.LOCATION)){
+
+            if(requestQuery != null){
+                requestQuery.setUpdatedQuery(queryBy, "");
+            }else{
+                requestQuery = new QueryHolder(queryBy, "", qr_distance, lon, lat);
+            }
+            loadRecyclerData(requestQuery);
+        }
     }
 }
 

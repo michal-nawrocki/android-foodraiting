@@ -86,7 +86,7 @@
 
     <Spinner
         android:id="@+id/sort_sortSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/sort_sortByTitle"
         android:layout_alignStart="@id/filter_searchTitle"
@@ -129,8 +129,9 @@
         android:textColor="@color/purple"
         android:text="Filter options"/>
 
+
     <TextView
-        android:id="@+id/filter_authorityTitle"
+        android:id="@+id/filter_regionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -138,17 +139,17 @@
         android:layout_alignStart="@id/search_title"
         android:layout_marginStart="16dp"
         android:textStyle="bold"
-        android:text="Authority:"/>
+        android:text="Region:"/>
 
     <Spinner
-        android:id="@+id/filter_authoritySpinner"
-        android:layout_width="wrap_content"
+        android:id="@+id/filter_regionSpinner"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/filter_authorityTitle"
+        android:layout_below="@id/filter_regionTitle"
         android:layout_alignStart="@id/filter_searchTitle"
         android:layout_marginStart="8dp"
         android:dropDownWidth="wrap_content"
-        android:entries="@array/array_authority"
+        android:entries="@array/array_region"
         android:spinnerMode="dropdown" />
 
     <TextView
@@ -156,14 +157,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/filter_title"
-        android:layout_toRightOf="@id/filter_authoritySpinner"
+        android:layout_toRightOf="@id/filter_regionSpinner"
         android:layout_marginStart="16dp"
         android:textStyle="bold"
         android:text="Business type:"/>
 
     <Spinner
         android:id="@+id/filter_typeSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/filter_typeTitle"
         android:layout_alignStart="@id/filter_typeTitle"
@@ -177,7 +178,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_authoritySpinner"
+        android:layout_below="@id/filter_regionSpinner"
         android:layout_alignStart="@id/search_title"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -200,7 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/filter_typeSpinner"
-        android:layout_toRightOf="@id/filter_authoritySpinner"
+        android:layout_toRightOf="@id/filter_regionSpinner"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:textStyle="bold"
@@ -218,7 +219,7 @@
         android:spinnerMode="dropdown" />
 
     <TextView
-        android:id="@+id/filter_regionTitle"
+        android:id="@+id/filter_distanceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -230,35 +231,15 @@
         android:text="Region:"/>
 
     <Spinner
-        android:id="@+id/filter_regionSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/filter_regionTitle"
-        android:layout_alignStart="@id/filter_searchTitle"
-        android:layout_marginStart="8dp"
-        android:dropDownWidth="wrap_content"
-        android:entries="@array/array_region"
-        android:spinnerMode="dropdown" />
-
-    <TextView
-        android:id="@+id/filter_distanceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/filter_ratingVALSpinner"
-        android:layout_toRightOf="@id/filter_authoritySpinner"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
-        android:text="Max distance:"/>
-
-    <Spinner
         android:id="@+id/filter_distanceSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/filter_distanceTitle"
-        android:layout_alignStart="@id/filter_typeTitle"
+        android:layout_alignStart="@id/filter_searchTitle"
         android:layout_marginStart="8dp"
         android:dropDownWidth="wrap_content"
         android:entries="@array/array_maxDistance"
         android:spinnerMode="dropdown" />
+
+
 </RelativeLayout>

@@ -1,7 +1,19 @@
 <resources>
     <string-array name="array_businessType">
-        <item>Ascending</item>
-        <item>Descending</item>
-        <item>Disable</item>
+        <item>Bars</item>
+        <item>Distributors</item>
+        <item>Farmers</item>
+        <item>Hospitals</item>
+        <item>Hotels</item>
+        <item>Importers</item>
+        <item>Manufactures</item>
+        <item>Mobile</item>
+        <item>Other</item>
+        <item>Restaurants</item>
+        <item>Retailers</item>
+        <item>Schools</item>
+        <item>Supermarkets</item>
+        <item>Takeaways</item>
+        <item>Empty</item>
     </string-array>
 </resources>

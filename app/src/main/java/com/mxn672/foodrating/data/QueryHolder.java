@@ -37,6 +37,8 @@ public class QueryHolder {
             case CITY:
                 query += "address=" + queryKeyword;
                 break;
+            case LOCATION:
+                break;
         }
 
 
