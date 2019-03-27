@@ -31,6 +31,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.mxn672.foodrating.data.FilterType;
 import com.mxn672.foodrating.data.QueryDistance;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     private QueryHolder requestQuery;
     private QueryType queryBy = QueryType.NAME;
     private QueryDistance queryDistance = QueryDistance.THREE_MILES;
+    private FilterType filter = FilterType.DISTANCE;
     private double lon;
     private double lat;
 
@@ -282,10 +284,11 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     }
 
     @Override
-    public void onDialogPositiveClick(QueryType qr_type, QueryDistance qr_distance) {
+    public void onDialogPositiveClick(QueryType qr_type, QueryDistance qr_distance, FilterType filter) {
         Log.e("Filter Dialog", "Set new values from filter");
         queryBy = qr_type;
         queryDistance = qr_distance;
+        this.filter = filter;
     }
 }
 
