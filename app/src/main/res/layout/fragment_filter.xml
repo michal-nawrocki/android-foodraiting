@@ -15,13 +15,35 @@
         android:text="Searchy By:"/>
 
     <Spinner
-        android:id="@+id/filter_searchBy"
+        android:id="@+id/filter_typeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/filter_searchTitle"
         android:layout_alignStart="@id/filter_searchTitle"
         android:layout_marginStart="8dp"
         android:dropDownWidth="wrap_content"
+        android:entries="@array/array_filterBy"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/filter_distanceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filter_typeSpinner"
+        android:layout_marginStart="16dp"
+        android:layout_alignParentTop="true"
+        android:textStyle="bold"
+        android:text="Max Distance:"/>
+
+    <Spinner
+        android:id="@+id/filter_distanceSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_distanceTitle"
+        android:layout_alignStart="@id/filter_distanceTitle"
+        android:layout_marginStart="8dp"
+        android:dropDownWidth="wrap_content"
+        android:entries="@array/array_maxDistance"
         android:spinnerMode="dropdown" />
 
 </RelativeLayout>

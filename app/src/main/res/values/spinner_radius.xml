@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="array_RadiusValue">
-        <item></item>
-        <item>1 mi. </item>
+    <string-array name="array_maxDistance">
+        <item>1 mi.</item>
         <item>2 mi.</item>
+        <item>3 mi.</item>
         <item>5 mi.</item>
         <item>10 mi.</item>
+        <item>No limit</item>
     </string-array>
 </resources>

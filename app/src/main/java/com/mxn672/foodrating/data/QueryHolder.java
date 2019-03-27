@@ -4,13 +4,13 @@ public class QueryHolder {
     public static String url = "http://api.ratings.food.gov.uk/establishments?";
     public QueryType type;
     public String queryKeyword;
-    public int radius;
+    public QueryDistance radius;
     public int pageSize = 20;
     public int pageNumber = 1;
     public Double lon = null;
     public Double lat = null;
 
-    public QueryHolder(QueryType type, String keyword, int radius, double lon, double lat) {
+    public QueryHolder(QueryType type, String keyword, QueryDistance radius, double lon, double lat) {
         this.type = type;
         this.queryKeyword = keyword;
         this.radius = radius;
@@ -37,10 +37,14 @@ public class QueryHolder {
                 break;
         }
 
+
         // apply extra stuff
         query+= "&latitude=" + lat + "&longitude=" +  lon +
-                "&rmaxDistanceLimit= " + radius +
                 "&pageNumber=" + pageNumber+ "&pageSize=" + pageSize ;
+
+        if(!radius.equals(QueryDistance.NO_LIMIT)){
+            query += "&maxDistanceLimit=" + radius.getMiles();
+        }
 
         return query;
     }
@@ -50,7 +54,7 @@ public class QueryHolder {
         this.queryKeyword = keyword;
     }
 
-    public void setRadius(int radius){
+    public void setRadius(QueryDistance radius){
         this.radius = radius;
     }
 

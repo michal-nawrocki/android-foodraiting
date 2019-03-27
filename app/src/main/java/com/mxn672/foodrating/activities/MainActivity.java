@@ -31,6 +31,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.mxn672.foodrating.data.QueryDistance;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
 import com.mxn672.foodrating.fragments.FilterDialog;
@@ -68,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
 
     private QueryHolder requestQuery;
     private QueryType queryBy = QueryType.NAME;
+    private QueryDistance queryDistance = QueryDistance.THREE_MILES;
     private double lon;
     private double lat;
-    private int radius;
 
     private EstablishmentDatabase db;
 
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
                 if(requestQuery != null){
                     requestQuery.setUpdatedQuery(queryBy, keyword);
                 }else{
-                    requestQuery = new QueryHolder(queryBy, keyword, radius, lon, lat);
+                    requestQuery = new QueryHolder(queryBy, keyword, queryDistance, lon, lat);
                 }
                 loadRecyclerData(requestQuery);
                 return false;
@@ -281,9 +282,10 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     }
 
     @Override
-    public void onDialogPositiveClick(QueryType qr) {
+    public void onDialogPositiveClick(QueryType qr_type, QueryDistance qr_distance) {
         Log.e("Filter Dialog", "Set new values from filter");
-        queryBy = qr;
+        queryBy = qr_type;
+        queryDistance = qr_distance;
     }
 }
 

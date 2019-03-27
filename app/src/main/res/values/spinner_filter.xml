@@ -4,6 +4,6 @@
         <item>Name</item>
         <item>City</item>
         <item>Street</item>
-        <item>PostCode</item>
+        <item>Post Code</item>
     </string-array>
 </resources>
