@@ -65,10 +65,12 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
-    private double lon;
-    private double lat;
 
     private QueryHolder requestQuery;
+    private QueryType queryBy = QueryType.NAME;
+    private double lon;
+    private double lat;
+    private int radius;
 
     private EstablishmentDatabase db;
 
@@ -136,8 +138,13 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
         searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                loadRecyclerData(query);
+            public boolean onQueryTextSubmit(String keyword) {
+                if(requestQuery != null){
+                    requestQuery.setUpdatedQuery(queryBy, keyword);
+                }else{
+                    requestQuery = new QueryHolder(queryBy, keyword, radius, lon, lat);
+                }
+                loadRecyclerData(requestQuery);
                 return false;
             }
 

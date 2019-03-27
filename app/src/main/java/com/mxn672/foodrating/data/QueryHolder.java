@@ -45,20 +45,20 @@ public class QueryHolder {
         return query;
     }
 
-    public void getUpdatedQuery(QueryType type, String keyword){
+    public void setUpdatedQuery(QueryType type, String keyword){
         this.type = type;
         this.queryKeyword = keyword;
     }
 
-    public void getChangedRadius(int radius){
+    public void setRadius(int radius){
         this.radius = radius;
     }
 
-    public void getNextPage(){
+    public void setNextPage(){
        pageNumber++;
     }
 
-    public void getPrevPage(){
+    public void setPrevPage(){
         pageNumber = (pageNumber == 1)? 1 : pageNumber--;
     }
 }
