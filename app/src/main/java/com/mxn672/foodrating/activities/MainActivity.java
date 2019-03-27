@@ -3,6 +3,7 @@ package com.mxn672.foodrating.activities;
 import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +21,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,6 +32,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.mxn672.foodrating.data.QueryHolder;
+import com.mxn672.foodrating.data.QueryType;
 import com.mxn672.foodrating.fragments.EstablishmentFragment;
 import com.mxn672.foodrating.fragments.FilterDialog;
 import com.mxn672.foodrating.recyclerView.MyAdapter;
@@ -49,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements EstablishmentFragment.NoticeDialogListener {
+public class MainActivity extends AppCompatActivity implements EstablishmentFragment.NoticeDialogListener, FilterDialog.NoticeDialogListener {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
     private LocationRequest locationRequest;
     private double lon;
     private double lat;
+
+    private QueryHolder requestQuery;
 
     private EstablishmentDatabase db;
 
@@ -198,15 +202,14 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
         alertDialog.show(fm, "filterDialog");
     }
 
-    private void loadRecyclerData(String filters){
+    private void loadRecyclerData(QueryHolder qr){
         findViewById(R.id.establishmentList).setVisibility(View.VISIBLE);
         findViewById(R.id.listError).setVisibility(View.INVISIBLE);
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching Data...");
         //progressDialog.show();
 
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, "http://api.ratings.food.gov.uk/establishments?name=" + filters +
-                "&latitude=" + lat + "&longitude=" +  lon  + "&pageSize=20", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, qr.getQueryURL(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -257,7 +260,6 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
     }
 
 
-
     @Override
     public void onBackPressed() {
 
@@ -269,6 +271,11 @@ public class MainActivity extends AppCompatActivity implements EstablishmentFrag
         mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDialogPositiveClick(QueryType qr) {
+
     }
 }
 

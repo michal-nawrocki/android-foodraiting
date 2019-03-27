@@ -3,7 +3,6 @@ package com.mxn672.foodrating.recyclerView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,7 +142,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
 
         holder.favourite.setTag(0);
         for(Establishment estb : mFavourited){
-            Log.e(estb.businessName, "VaL: " + estb.favoured);
             if(estb.estb_id.equals(mDataset.get(position).estb_id)){
                 holder.favourite.setImageResource(R.drawable.favourite_filled);
                 holder.favourite.setTag(1);
