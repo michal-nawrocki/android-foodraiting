@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_filterBy">
+        <item>Business Type</item>
+        <item>Date Of Inspection</item>
+        <item>Local Authority</item>
+        <item>Distance</item>
+        <item>Rating</item>
+        <item>Region</item>
+    </string-array>
+</resources>

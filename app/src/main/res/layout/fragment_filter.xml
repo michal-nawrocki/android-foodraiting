@@ -6,13 +6,27 @@
     android:padding="?android:attr/dialogPreferredPadding">
 
     <TextView
-        android:id="@+id/filter_searchTitle"
+        android:id="@+id/search_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textStyle="bold"
-        android:text="Searchy By:"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:padding="8dp"
+        android:textColor="@color/purple"
+        android:text="Search options"/>
+
+    <TextView
+        android:id="@+id/filter_searchTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/search_title"
+        android:layout_alignStart="@id/search_title"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:text="Searchy by:"/>
 
     <Spinner
         android:id="@+id/filter_typeSpinner"
@@ -22,7 +36,7 @@
         android:layout_alignStart="@id/filter_searchTitle"
         android:layout_marginStart="8dp"
         android:dropDownWidth="wrap_content"
-        android:entries="@array/array_filterBy"
+        android:entries="@array/array_searchBy"
         android:spinnerMode="dropdown" />
 
     <TextView
@@ -31,9 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/filter_typeSpinner"
         android:layout_marginStart="16dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/search_title"
         android:textStyle="bold"
-        android:text="Max Distance:"/>
+        android:text="Max distance:"/>
 
     <Spinner
         android:id="@+id/filter_distanceSpinner"
@@ -45,5 +59,44 @@
         android:dropDownWidth="wrap_content"
         android:entries="@array/array_maxDistance"
         android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/filter_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/filter_typeSpinner"
+        android:padding="8dp"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/purple"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Filter options"/>
+
+    <TextView
+        android:id="@+id/filter_filterByTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/filter_title"
+        android:layout_alignStart="@id/search_title"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:text="Filter by:"/>
+
+    <Spinner
+        android:id="@+id/filter_filterSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_filterByTitle"
+        android:layout_alignStart="@id/filter_searchTitle"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="-8dp"
+        android:dropDownWidth="wrap_content"
+        android:entries="@array/array_filterBy"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:spinnerMode="dropdown" />
+
+
 
 </RelativeLayout>

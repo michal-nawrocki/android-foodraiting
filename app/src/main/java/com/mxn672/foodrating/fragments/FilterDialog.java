@@ -3,6 +3,7 @@ package com.mxn672.foodrating.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,12 @@ public class FilterDialog extends DialogFragment{
     private View view;
     private QueryType searchBy = QueryType.NAME;
     private QueryDistance maxDistance = QueryDistance.THREE_MILES;
+
+    // Save preferences using this
+    SharedPreferences.Editor editor;
+    // Load preferences using this
+    SharedPreferences prefs;
+
 
     public FilterDialog() {
 
@@ -51,18 +58,24 @@ public class FilterDialog extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_filter, null);
-
+        editor = getActivity().getPreferences(0).edit();
+        prefs = getActivity().getPreferences(0);
 
         // Spinner SearchBy setup
         Spinner fSearchBy = view.findViewById(R.id.filter_typeSpinner);
         ArrayAdapter<CharSequence> adapter_fSearchBy = ArrayAdapter.createFromResource(getActivity(),
-                R.array.array_filterBy, android.R.layout.simple_spinner_item);
+                R.array.array_searchBy, android.R.layout.simple_spinner_item);
         adapter_fSearchBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fSearchBy.setAdapter(adapter_fSearchBy);
+        fSearchBy.setSelection(prefs.getInt("searchBy_selected", 0));
         fSearchBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String result = parent.getItemAtPosition(position).toString();
+
+                // Store the preference
+                editor.putInt("searchBy_selected", fSearchBy.getSelectedItemPosition());
+                editor.apply();
 
                 // Get the corresponding QueryType
                 switch (result){
@@ -79,7 +92,7 @@ public class FilterDialog extends DialogFragment{
                         searchBy = QueryType.POSTCODE;
                         break;
                 }
-                Log.e("Spinner of " + view.getId(), "Value: " + result);
+                Log.e("Spinner of " + id, "Value: " + result);
             }
 
             @Override
@@ -92,12 +105,18 @@ public class FilterDialog extends DialogFragment{
         Spinner fMaxDistance = view.findViewById(R.id.filter_distanceSpinner);
         ArrayAdapter<CharSequence> adapter_fMaxDistance = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_maxDistance, android.R.layout.simple_spinner_item);
+        //adapter_fMaxDistance.s
         adapter_fMaxDistance.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fMaxDistance.setAdapter(adapter_fMaxDistance);
+        fMaxDistance.setSelection(prefs.getInt("maxDistance_selected", 0));
         fMaxDistance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String result = parent.getItemAtPosition(position).toString();
+
+                // Store preference
+                editor.putInt("maxDistance_selected", fMaxDistance.getSelectedItemPosition());
+                editor.apply();
 
                 // Get the corresponding QueryDistance
                 switch (result){
@@ -121,7 +140,7 @@ public class FilterDialog extends DialogFragment{
                         break;
                 }
 
-                Log.e("Spinner of " + view.getId(), "Value: " + result);
+                Log.e("Spinner of " + id, "Value: " + result);
             }
 
             @Override

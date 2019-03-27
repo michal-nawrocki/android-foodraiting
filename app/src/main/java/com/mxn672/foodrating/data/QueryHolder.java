@@ -1,5 +1,7 @@
 package com.mxn672.foodrating.data;
 
+import android.util.Log;
+
 public class QueryHolder {
     public static String url = "http://api.ratings.food.gov.uk/establishments?";
     public QueryType type;
@@ -24,7 +26,7 @@ public class QueryHolder {
         // apply the keyword based on QueryType
         switch (type) {
             case POSTCODE:
-                query += "address" + queryKeyword;
+                query += "address=" + queryKeyword;
                 break;
             case STREET:
                 query += "address=" + queryKeyword;
@@ -46,6 +48,7 @@ public class QueryHolder {
             query += "&maxDistanceLimit=" + radius.getMiles();
         }
 
+        Log.e("QueryLink:", query);
         return query;
     }
 

@@ -14,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textStyle="bold"
-        android:text="Business Type:" />
+        android:text="Business type:" />
 
     <TextView
         android:id="@+id/estb_type"
@@ -24,7 +24,7 @@
         android:layout_below="@id/estb_typeTitle"
         android:layout_alignStart="@id/estb_typeTitle"
         android:layout_marginStart="8dp"
-        android:text="Some Type" />
+        android:text="Some type" />
 
     <TextView
         android:id="@+id/estb_postTitle"
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:text="Inspection Date:"
+        android:text="Inspection date:"
         android:textStyle="bold" />
 
     <TextView
