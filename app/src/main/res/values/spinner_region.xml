@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="array_region">
+        <item>Ascending</item>
+        <item>Descending</item>
+        <item>Disable</item>
+    </string-array>
+</resources>

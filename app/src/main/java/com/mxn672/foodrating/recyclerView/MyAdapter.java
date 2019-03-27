@@ -8,19 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Switch;
-
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
 import com.mxn672.foodrating.fragments.EstablishmentFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable{
 
     public ArrayList<Establishment> mDataset;
+    public ArrayList<Establishment> copy_mDataset;
     public ArrayList<Establishment> mFavourited;
     public FragmentManager fragmentManager;
     private EstablishmentDatabase db;
@@ -32,6 +30,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         this.fragmentManager = fragmentManager;
         this.db = db;
         this.mFavourited = (ArrayList<Establishment>) db.establishmentDao().getAll();
+        this.copy_mDataset = new ArrayList<>(this.mDataset);
         fav = false;
     }
 
@@ -41,6 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
         this.fragmentManager = fragmentManager;
         this.db = db;
         this.mFavourited = (ArrayList<Establishment>) db.establishmentDao().getAll();
+        this.copy_mDataset = new ArrayList<>(this.mDataset);
         fav = true;
 
     }

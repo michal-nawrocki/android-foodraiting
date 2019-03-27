@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="array_ratingOP">
+        <item>Equal</item>
+        <item>Greater</item>
+        <item>Smaller</item>
+        <item>Disable</item>
+    </string-array>
+</resources>

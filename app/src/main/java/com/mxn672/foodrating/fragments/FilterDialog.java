@@ -64,7 +64,7 @@ public class FilterDialog extends DialogFragment{
         prefs = getActivity().getPreferences(0);
 
         // Spinner SearchBy setup
-        Spinner fSearchBy = view.findViewById(R.id.filter_typeSpinner);
+        Spinner fSearchBy = view.findViewById(R.id.search_typeSpinner);
         ArrayAdapter<CharSequence> adapter_fSearchBy = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_searchBy, android.R.layout.simple_spinner_item);
         adapter_fSearchBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -103,7 +103,7 @@ public class FilterDialog extends DialogFragment{
         });
 
         // Spinner MaxDistance setup
-        Spinner fMaxDistance = view.findViewById(R.id.filter_distanceSpinner);
+        Spinner fMaxDistance = view.findViewById(R.id.search_distanceSpinner);
         ArrayAdapter<CharSequence> adapter_fMaxDistance = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_maxDistance, android.R.layout.simple_spinner_item);
         adapter_fMaxDistance.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -151,9 +151,9 @@ public class FilterDialog extends DialogFragment{
 
 
         // Spinner FilterBy setup
-        Spinner fFilterBy = view.findViewById(R.id.filter_filterSpinner);
+        Spinner fFilterBy = view.findViewById(R.id.sort_sortSpinner);
         ArrayAdapter<CharSequence> adapter_fFilterBy = ArrayAdapter.createFromResource(getActivity(),
-                R.array.array_filterBy, android.R.layout.simple_spinner_item);
+                R.array.array_sortBy, android.R.layout.simple_spinner_item);
         adapter_fFilterBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fFilterBy.setAdapter(adapter_fFilterBy);
         fFilterBy.setSelection(prefs.getInt("filterBy_selected", 3));
@@ -171,7 +171,7 @@ public class FilterDialog extends DialogFragment{
                     case "Business Type":
                         filterBy = FilterType.TYPE;
                         break;
-                    case "Date Of Inspection":
+                    case "Inspection Date":
                         filterBy = FilterType.DATE;
                         break;
                     case "Local Authority":
