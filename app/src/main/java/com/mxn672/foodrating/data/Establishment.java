@@ -56,6 +56,8 @@ public class Establishment{
             this.address_l4 = (String) obj.get("AddressLine4");
             this.address_postcode = (String) obj.get("PostCode");
             this.distance = df2.format(obj.get("Distance"));
+            this.lat = (String) obj.getJSONObject("geocode").get("latitude");
+            this.lon = (String) obj.getJSONObject("geocode").get("longitude");
             this.date = (String) obj.get("RatingDate");
             this.favoured = false;
         } catch (JSONException e) {

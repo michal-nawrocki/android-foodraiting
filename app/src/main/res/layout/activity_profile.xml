@@ -30,6 +30,7 @@
         android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:srcCompat="@drawable/info_outline" />
 
     <ImageButton
@@ -40,7 +41,7 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/more" />
+        app:srcCompat="@drawable/info_outline" />
 
     <View
         android:id="@+id/profile_divider"

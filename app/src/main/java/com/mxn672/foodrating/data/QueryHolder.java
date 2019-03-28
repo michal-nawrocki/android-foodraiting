@@ -11,6 +11,7 @@ public class QueryHolder {
     public int pageNumber = 1;
     public Double lon = null;
     public Double lat = null;
+    public boolean overload = false;
 
     public QueryHolder(QueryType type, String keyword, Distance radius, double lon, double lat) {
         this.type = type;
@@ -18,6 +19,16 @@ public class QueryHolder {
         this.radius = radius;
         this.lon = lon;
         this.lat = lat;
+    }
+
+    public QueryHolder(QueryType type, String keyword, Distance radius, double lon, double lat, int overload) {
+        this.type = type;
+        this.queryKeyword = keyword;
+        this.radius = radius;
+        this.lon = lon;
+        this.lat = lat;
+        this.overload = true;
+
     }
 
     public String getQueryURL() {
@@ -48,6 +59,10 @@ public class QueryHolder {
 
         if(!radius.equals(Distance.NO_LIMIT)){
             query += "&maxDistanceLimit=" + radius.getMiles();
+        }
+
+        if(overload){
+            query += "&businessTypeId=7844";
         }
 
         Log.e("QueryLink:", query);

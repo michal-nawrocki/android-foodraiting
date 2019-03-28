@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -68,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
 
     private ImageButton filterButton;
     private SearchView searchView;
-    private ArrayList<Establishment> establishmentsList = new ArrayList<>();
-    private ArrayList<Establishment> favouritedEstb = new ArrayList<>();
+    public ArrayList<Establishment> establishmentsList = new ArrayList<>();
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
@@ -80,10 +80,13 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     private SortHolder sorter = new SortHolder();
     private FilterHolder filter = new FilterHolder();
     private String previousKeyword = new String();
-    private double lon;
-    private double lat;
+    public double lon;
+    public double lat;
 
     private EstablishmentDatabase db;
+
+    // Save preferences using this
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
 
         // Get GPS position for location search
         callPermissions();
+
+        editor = this.getPreferences(0).edit();
 
         // Get Databse setup
         db = Room.databaseBuilder(getApplicationContext(), EstablishmentDatabase .class, "estb-database").allowMainThreadQueries().build();
@@ -190,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
                     Log.e("Location: ", locationResult.getLastLocation().getLatitude() + " " + locationResult.getLastLocation().getLongitude());
                     lat = locationResult.getLastLocation().getLatitude();
                     lon = locationResult.getLastLocation().getLongitude();
+                    editor.putFloat("device_lat", (float) lat);
+                    editor.putFloat("device_lon", (float) lon);
+
                 }
             }, getMainLooper());
         }else{
@@ -222,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
         alertDialog.show(fm, "filterDialog");
     }
 
-    private void loadRecyclerData(QueryHolder qr){
+    public void loadRecyclerData(QueryHolder qr){
         findViewById(R.id.establishmentList).setVisibility(View.VISIBLE);
         findViewById(R.id.listError).setVisibility(View.INVISIBLE);
         ProgressDialog progressDialog = new ProgressDialog(this);
