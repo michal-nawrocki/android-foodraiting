@@ -379,57 +379,42 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
                         continue;
                 }
 
-                /*
                 if(!filter.maxDistance.equals(Distance.NO_LIMIT)){
                     if(Double.parseDouble(pointer.distance) > filter.maxDistance.distance){
-                        data.remove(i);
+                        filtered.remove(pointer);
                         continue;
                     }
                 }
 
                 if(!filter.ratingOP.equals(FilterRating.NULL)){
-                    int val;
+                    int val = -1;
 
                     try{
                         val = Integer.parseInt(pointer.rating);
                     }catch (NumberFormatException e){
-                        val = -1;
+                        filtered.remove(pointer);
+                        continue;
                     }
 
                     switch (filter.ratingOP) {
                         case EQUAL:
                             if(val != filter.ratingVAL)
-                                data.remove(i);
+                                filtered.remove(pointer);
                             continue;
                         case GREATER:
-                            if(val < filter.ratingVAL)
-                                data.remove(i);
+                            if(val <= filter.ratingVAL)
+                                filtered.remove(pointer);
                             continue;
                         case SMALLER:
-                            if(val > filter.ratingVAL)
-                                data.remove(i);
+                            if(val >= filter.ratingVAL)
+                                filtered.remove(pointer);
                             continue;
                      }
                 }
-                */
             }
 
         }
         return filtered;
-    }
-
-
-    private void updateRecycler(){
-        /*
-        When do I want to update or display the recycler
-        1. When I create App
-        2. After I type in the thing
-        3. After I exit from an EstablishmentView
-        4. After I apply filter
-
-
-         */
-
     }
 }
 

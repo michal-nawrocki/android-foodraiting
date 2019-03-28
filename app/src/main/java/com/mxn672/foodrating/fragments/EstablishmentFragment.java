@@ -4,12 +4,18 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,7 +35,6 @@ public class EstablishmentFragment extends DialogFragment {
         this.estb = estb;
         this.db = db;
     }
-
 
     // Use this instance of the interface to deliver action events
     EstablishmentDialogListener listener;
@@ -63,8 +68,48 @@ public class EstablishmentFragment extends DialogFragment {
         TextView vError = view.findViewById(R.id.estb_ratingError);
         RatingBar vRating = view.findViewById(R.id.estb_rating);
         TextView vPostCode = view.findViewById(R.id.estb_post);
-        Switch vFav = view.findViewById(R.id.estb_favButton);
+        ImageButton vFavourite = view.findViewById(R.id.favourite_button);
+        //TextView vFavText = view.findViewById(R.id.addFavourite);
+
+
+
+        if(estb.favoured){
+            vFavourite.setImageResource(R.drawable.favourite_filled);
+            //vFavText.setText("Remove Favourites");
+        }else{
+            vFavourite.setImageResource(R.drawable.favourite_border);
+            //vFavText.setText("Add to Favourites");
+        }
+
+        vFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(estb.favoured){
+                    vFavourite.setImageResource(R.drawable.favourite_border);
+                    estb.favoured = false;
+                    db.establishmentDao().deleteEstablishment(estb);
+                }else{
+                    vFavourite.setImageResource(R.drawable.favourite_filled);
+                    estb.favoured = true;
+                    db.establishmentDao().insertEstablishment(estb);
+                }
+            }
+        });
+
+
         Boolean isFavoured = estb.favoured;
+        ImageButton getDirection = view.findViewById(R.id.directions_button);
+
+        getDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri gmmIntentUri = Uri.parse("geo:" + estb.lat + "," + estb.lon + "?q=" + estb.businessName + "+" + estb.address_l1);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
 
         // Populate all views
         String eName = new String();
@@ -109,7 +154,6 @@ public class EstablishmentFragment extends DialogFragment {
         vType.setText(eType);
 
         // Check for favoured state
-        if(estb.favoured) vFav.setChecked(true);
 
         // Attach data to the builder
         if(estb.businessType.contains("Restaurant")){
@@ -120,23 +164,9 @@ public class EstablishmentFragment extends DialogFragment {
         }
         builder.setTitle(estb.businessName);
         builder.setView(view);
-        builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Back",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                if(vFav.isChecked() != isFavoured){
-                    if(vFav.isChecked()){
-                        //We add to the DB
-                        estb.favoured = true;
-                        db.establishmentDao().insertEstablishment(estb);
-
-                    }else{
-                        //We remove from the DB
-                        estb.favoured = false;
-                        db.establishmentDao().deleteEstablishment(estb);
-                    }
-                }
-
                 listener.onDialogPositiveClick(estb);
             }
         });

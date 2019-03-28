@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/establishmentFragment"
     android:layout_width="wrap_content"
@@ -71,7 +72,7 @@
         android:id="@+id/estb_inspectionDateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/icons"
         android:layout_alignParentRight="true"
         android:text="Inspection date:"
         android:textStyle="bold" />
@@ -120,28 +121,57 @@
         android:visibility="invisible"
         android:text="Error Message" />
 
-    <TextView
-        android:id="@+id/estb_favTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:layout_alignStart="@id/estb_ratingTitle"
-        android:layout_below="@id/estb_ratingError"
-        android:textStyle="bold"
-        android:text="Favoured:"/>
 
-    <Switch
-        android:id="@+id/estb_favButton"
-        android:theme="@style/SCBSwitch"
+
+    <RelativeLayout
+        android:id="@+id/icons"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/estb_favTitle"
-        android:layout_alignStart="@id/estb_rating"
-        android:layout_alignEnd="@id/estb_rating"
-        android:showText="false"
-        android:splitTrack="false"
-        android:switchMinWidth="?android:attr/listPreferredItemHeightLarge"
-        />
+        android:layout_alignParentRight ="true"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/dir_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/directions_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_centerInParent="true"
+
+                android:padding="8dp"
+                android:tint="@color/purple"
+                app:srcCompat="@drawable/directions" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fav_Layout"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@id/dir_layout"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/favourite_button"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_centerInParent="true"
+                android:tint="@color/purple"
+                app:srcCompat="@drawable/favourite_border" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
