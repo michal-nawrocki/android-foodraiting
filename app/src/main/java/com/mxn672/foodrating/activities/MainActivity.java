@@ -32,11 +32,14 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.mxn672.foodrating.data.FilterHolder;
+import com.mxn672.foodrating.data.FilterRating;
 import com.mxn672.foodrating.data.SortHolder;
 import com.mxn672.foodrating.data.SortType;
 import com.mxn672.foodrating.data.Distance;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
+import com.mxn672.foodrating.data.api.BusinessType;
+import com.mxn672.foodrating.data.api.Region;
 import com.mxn672.foodrating.fragments.FilterDialog;
 import com.mxn672.foodrating.fragments.interfaces.EstablishmentDialogListener;
 import com.mxn672.foodrating.fragments.interfaces.FilterDialogListener;
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
             public boolean onQueryTextSubmit(String keyword) {
                 previousKeyword = keyword;
                 if(requestQuery != null){
-                    requestQuery.setUpdatedQuery(queryBy, keyword);
+                    requestQuery.setUpdatedQuery(queryBy, keyword, queryDistance);
                 }else{
                     requestQuery = new QueryHolder(queryBy, keyword, queryDistance, lon, lat);
                 }
@@ -245,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
                                 findViewById(R.id.establishmentList).setVisibility(View.INVISIBLE);
                                 findViewById(R.id.listError).setVisibility(View.VISIBLE);
                             }else{
+                                filterList(filter, establishmentsList);
                                 sortList(sorter, establishmentsList);
                                 mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
                                 recyclerView.setAdapter(mAdapter);
@@ -286,7 +290,12 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     @Override
     public void onDialogPositiveClick(Establishment estb) {
         establishmentsList.set(establishmentsList.indexOf(estb),estb);
-        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
+
+        ArrayList<Establishment> toShow;
+
+        toShow = filterList(filter, establishmentsList);
+        sortList(sorter, toShow);
+        mAdapter = new MyAdapter(toShow, getSupportFragmentManager(), db);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -299,10 +308,13 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
         this.sorter = sorter;
         this.filter = filter;
 
+        ArrayList<Establishment> toShow;
+
+
         if(requestQuery != null){
-            requestQuery.setUpdatedQuery(queryBy, "");
+            requestQuery.setUpdatedQuery(queryBy, "", queryDistance);
         }else{
-            requestQuery = new QueryHolder(queryBy, "", qr_distance, lon, lat);
+            requestQuery = new QueryHolder(queryBy, "", queryDistance, lon, lat);
         }
 
         if(requestQuery.type.equals(QueryType.LOCATION)){
@@ -311,8 +323,9 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
         }
 
 
-        sortList(sorter, establishmentsList);
-        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
+        toShow = filterList(filter, establishmentsList);
+        sortList(sorter, toShow);
+        mAdapter = new MyAdapter(toShow, getSupportFragmentManager(), db);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -339,10 +352,84 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
         if(!sorter.ascending) Collections.reverse(data);
     }
 
-    private ArrayList<Establishment> filterList(FilterHolder filter){
-        ArrayList<Establishment> filtered = new ArrayList<>();
+    private ArrayList<Establishment> filterList(FilterHolder filter, ArrayList<Establishment> data){
 
+        ArrayList<Establishment> filtered = new ArrayList<>();
+        filtered.addAll(data);
+
+        if(filter.isActive){
+            for(Establishment pointer : data) {
+                Log.e("Normal Establishment:", String.valueOf(pointer.distance));
+                if(filter.removeNotRated){
+                    int rating;
+
+                    try{
+                        rating = Integer.parseInt(pointer.rating);
+                    }catch (NumberFormatException e){
+                        filtered.remove(pointer);
+                        continue;
+                    }
+                }
+
+
+                if(!filter.businessType.equals(BusinessType.NULL)){
+                    Log.e("BusinessType", String.valueOf(filter.businessType));
+                   if(!pointer.businessType.equals(filter.businessType.name))
+                       filtered.remove(pointer);
+                        continue;
+                }
+
+                /*
+                if(!filter.maxDistance.equals(Distance.NO_LIMIT)){
+                    if(Double.parseDouble(pointer.distance) > filter.maxDistance.distance){
+                        data.remove(i);
+                        continue;
+                    }
+                }
+
+                if(!filter.ratingOP.equals(FilterRating.NULL)){
+                    int val;
+
+                    try{
+                        val = Integer.parseInt(pointer.rating);
+                    }catch (NumberFormatException e){
+                        val = -1;
+                    }
+
+                    switch (filter.ratingOP) {
+                        case EQUAL:
+                            if(val != filter.ratingVAL)
+                                data.remove(i);
+                            continue;
+                        case GREATER:
+                            if(val < filter.ratingVAL)
+                                data.remove(i);
+                            continue;
+                        case SMALLER:
+                            if(val > filter.ratingVAL)
+                                data.remove(i);
+                            continue;
+                     }
+                }
+                */
+            }
+
+        }
         return filtered;
+    }
+
+
+    private void updateRecycler(){
+        /*
+        When do I want to update or display the recycler
+        1. When I create App
+        2. After I type in the thing
+        3. After I exit from an EstablishmentView
+        4. After I apply filter
+
+
+         */
+
     }
 }
 

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.mxn672.foodrating.R;
@@ -33,11 +34,11 @@ public class FilterDialog extends DialogFragment{
     private SortHolder sorter;
     private boolean sortAscedning = false;
     private FilterHolder filter;
-    private Region filterRegion = Region.NULL;
     private BusinessType businessType = BusinessType.NULL;
     private FilterRating filterRating = FilterRating.NULL;
     private int filterRatingNumber = -1;
     private Distance filterDistance = Distance.NO_LIMIT;
+    private Boolean removeNotRated = false;
 
     // Save preferences using this
     SharedPreferences.Editor editor;
@@ -236,73 +237,6 @@ public class FilterDialog extends DialogFragment{
 
             }
         });
-
-
-        // Spinner region setup
-        Spinner fRegion = view.findViewById(R.id.filter_regionSpinner);
-        ArrayAdapter<CharSequence> adapter_fRegion = ArrayAdapter.createFromResource(getActivity(),
-                R.array.array_region, android.R.layout.simple_spinner_item);
-        adapter_fRegion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fRegion.setAdapter(adapter_fRegion);
-        fRegion.setSelection(prefs.getInt("filter_region",5));
-        fRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String result = parent.getItemAtPosition(position).toString();
-
-                // Store preference
-                editor.putInt("filter_region", fRegion.getSelectedItemPosition());
-                editor.apply();
-
-                // Get the corresponding Region
-                switch (result){
-                    case "East Counties":
-                        filterRegion = Region.EC;
-                        break;
-                    case "East Midlands":
-                        filterRegion = Region.EM;
-                        break;
-                    case "London":
-                        filterRegion = Region.LDN;
-                        break;
-                    case "North East":
-                        filterRegion = Region.NE;
-                        break;
-                    case "North West":
-                        filterRegion = Region.NW;
-                        break;
-                    case "South East":
-                        filterRegion = Region.SE;
-                        break;
-                    case "South West":
-                        filterRegion = Region.SW;
-                        break;
-                    case "West Midlands":
-                        filterRegion = Region.WM;
-                        break;
-                    case "Yorkshire and Humberside":
-                        filterRegion = Region.YH;
-                        break;
-                    case "Northern Ireland":
-                        filterRegion = Region.NI;
-                        break;
-                    case "Wales":
-                        filterRegion = Region.WALS;
-                        break;
-                    default:
-                        filterRegion = Region.NULL;
-                        break;
-                }
-
-                Log.e("Spinner of " + id, "Value: " + result);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
 
         // Spinner type setup
         Spinner fType = view.findViewById(R.id.filter_typeSpinner);
@@ -509,12 +443,38 @@ public class FilterDialog extends DialogFragment{
             }
         });
 
+
+        // Box removeNoRating setup
+        CheckBox fRemoveNoRating = view.findViewById(R.id.filter_removeNoRating);
+        Log.e("Checkbox val: ", String.valueOf(prefs.getBoolean("removeNot", true)));
+        removeNotRated = prefs.getBoolean("removeNot", true);
+        fRemoveNoRating.setChecked(removeNotRated);
+
+
+        fRemoveNoRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.e("Checkbox val: ", String.valueOf(prefs.getBoolean("removeNot", false)));
+
+                if(fRemoveNoRating.isChecked()){
+                    removeNotRated = true;
+                    editor.putBoolean("removeNot", true).commit();
+                }else{
+                    removeNotRated = false;
+                    editor.putBoolean("removeNot", false).commit();
+                }
+
+                Log.e("Filter remove", String.valueOf(fRemoveNoRating.isChecked()));
+            }
+        });
+
         builder.setView(view);
         builder.setPositiveButton("Apply",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // on success
-                filter = new FilterHolder(filterRegion, businessType, filterRating, filterRatingNumber, filterDistance);
+                filter = new FilterHolder(businessType, filterRating, filterRatingNumber, filterDistance, prefs.getBoolean("removeNot", false));
                 sorter = new SortHolder(sortType, sortAscedning);
 
                 listener.onDialogPositiveClick(searchBy, maxDistance, sorter, filter);

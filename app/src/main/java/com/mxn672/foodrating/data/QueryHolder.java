@@ -7,7 +7,7 @@ public class QueryHolder {
     public QueryType type;
     public String queryKeyword;
     public Distance radius;
-    public int pageSize = 20;
+    public int pageSize = 100;
     public int pageNumber = 1;
     public Double lon = null;
     public Double lat = null;
@@ -54,9 +54,10 @@ public class QueryHolder {
         return query;
     }
 
-    public void setUpdatedQuery(QueryType type, String keyword){
+    public void setUpdatedQuery(QueryType type, String keyword, Distance distance){
         this.type = type;
         this.queryKeyword = keyword;
+        this.radius = distance;
     }
 
     public void setRadius(Distance radius){
