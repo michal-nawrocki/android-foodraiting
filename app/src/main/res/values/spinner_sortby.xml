@@ -3,9 +3,8 @@
     <string-array name="array_sortBy">
         <item>Business Type</item>
         <item>Inspection Date</item>
-        <item>Local Authority</item>
+        <item>Name</item>
         <item>Distance</item>
         <item>Rating</item>
-        <item>Region</item>
     </string-array>
 </resources>

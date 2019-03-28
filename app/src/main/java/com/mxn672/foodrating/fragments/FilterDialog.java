@@ -15,8 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.mxn672.foodrating.R;
+import com.mxn672.foodrating.data.FilterHolder;
+import com.mxn672.foodrating.data.FilterRating;
+import com.mxn672.foodrating.data.SortHolder;
 import com.mxn672.foodrating.data.SortType;
-import com.mxn672.foodrating.data.QueryDistance;
+import com.mxn672.foodrating.data.Distance;
 import com.mxn672.foodrating.data.QueryType;
 import com.mxn672.foodrating.data.api.BusinessType;
 import com.mxn672.foodrating.data.api.Region;
@@ -25,10 +28,16 @@ import com.mxn672.foodrating.fragments.interfaces.FilterDialogListener;
 public class FilterDialog extends DialogFragment{
     private View view;
     private QueryType searchBy = QueryType.NAME;
-    private QueryDistance maxDistance = QueryDistance.THREE_MILES;
+    private Distance maxDistance = Distance.THREE_MILES;
     private SortType sortType = SortType.DISTANCE;
+    private SortHolder sorter;
+    private boolean sortAscedning = false;
+    private FilterHolder filter;
     private Region filterRegion = Region.NULL;
     private BusinessType businessType = BusinessType.NULL;
+    private FilterRating filterRating = FilterRating.NULL;
+    private int filterRatingNumber = -1;
+    private Distance filterDistance = Distance.NO_LIMIT;
 
     // Save preferences using this
     SharedPreferences.Editor editor;
@@ -127,22 +136,22 @@ public class FilterDialog extends DialogFragment{
                 // Get the corresponding QueryDistance
                 switch (result){
                     case "1 mi.":
-                        maxDistance = QueryDistance.ONE_MILE;
+                        maxDistance = Distance.ONE_MILE;
                         break;
                     case "2 mi.":
-                        maxDistance = QueryDistance.TWO_MILES;
+                        maxDistance = Distance.TWO_MILES;
                         break;
                     case "3 mi.":
-                        maxDistance = QueryDistance.THREE_MILES;
+                        maxDistance = Distance.THREE_MILES;
                         break;
                     case "5 mi.":
-                        maxDistance = QueryDistance.FIVE_MILES;
+                        maxDistance = Distance.FIVE_MILES;
                         break;
                     case "10 mi.":
-                        maxDistance = QueryDistance.TEN_MILES;
+                        maxDistance = Distance.TEN_MILES;
                         break;
                     case "No limit":
-                        maxDistance = QueryDistance.NO_LIMIT;
+                        maxDistance = Distance.NO_LIMIT;
                         break;
                 }
 
@@ -172,7 +181,7 @@ public class FilterDialog extends DialogFragment{
                 editor.putInt("filterBy_selected", fsortBy.getSelectedItemPosition());
                 editor.apply();
 
-                // Get the corresponding QueryDistance
+                // Get the corresponding SortType
                 switch (result){
                     case "Business Type":
                         sortType = SortType.TYPE;
@@ -180,17 +189,14 @@ public class FilterDialog extends DialogFragment{
                     case "Inspection Date":
                         sortType = SortType.DATE;
                         break;
-                    case "Local Authority":
-                        sortType = SortType.AUTHORITY;
+                    case "NAME":
+                        sortType = SortType.NAME;
                         break;
                     case "Distance":
                         sortType = SortType.DISTANCE;
                         break;
                     case "Rating":
                         sortType = SortType.RATING;
-                        break;
-                    case "Region":
-                        sortType = SortType.REGION;
                         break;
                 }
 
@@ -202,10 +208,41 @@ public class FilterDialog extends DialogFragment{
             }
         });
 
+        // Spinner sortOrder setup
+
+        Spinner fOrder = view.findViewById(R.id.sort_orderSpinner);
+        ArrayAdapter<CharSequence> adapter_fOrder = ArrayAdapter.createFromResource(getActivity(),
+                R.array.array_order, android.R.layout.simple_spinner_item);
+        adapter_fOrder.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fOrder.setAdapter(adapter_fOrder);
+        fOrder.setSelection(prefs.getInt("sort_order", 0));
+        fOrder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String result = parent.getItemAtPosition(position).toString();
+
+                // Store preference
+                editor.putInt("sort_order", fOrder.getSelectedItemPosition());
+                editor.apply();
+
+                // Set the value
+                sortAscedning = (result.equals("Ascending"));
+
+                Log.e("Spinner of " + id, "Value: " + result);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         // Spinner region setup
         Spinner fRegion = view.findViewById(R.id.filter_regionSpinner);
         ArrayAdapter<CharSequence> adapter_fRegion = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_region, android.R.layout.simple_spinner_item);
+        adapter_fRegion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fRegion.setAdapter(adapter_fRegion);
         fRegion.setSelection(prefs.getInt("filter_region",5));
         fRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -271,6 +308,7 @@ public class FilterDialog extends DialogFragment{
         Spinner fType = view.findViewById(R.id.filter_typeSpinner);
         ArrayAdapter<CharSequence> adapter_fType = ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_businessType, android.R.layout.simple_spinner_item);
+        adapter_fType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fType.setAdapter(adapter_fType);
         fType.setSelection(prefs.getInt("filter_type", 0));
         fType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -342,12 +380,34 @@ public class FilterDialog extends DialogFragment{
         Spinner fRatingOP = view.findViewById(R.id.filter_ratingOPSpinner);
         ArrayAdapter<CharSequence> adapter_fRatingOP= ArrayAdapter.createFromResource(getActivity(),
                 R.array.array_ratingOP, android.R.layout.simple_spinner_item);
+        adapter_fRatingOP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fRatingOP.setAdapter(adapter_fRatingOP);
         fRatingOP.setSelection(prefs.getInt("filter_ratingOP", 0));
         fRatingOP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String result = parent.getItemAtPosition(position).toString();
 
+                // Store preference
+                editor.putInt("filter_ratingOP", fRatingOP.getSelectedItemPosition());
+                editor.apply();
+
+                // Get the corresponding operator
+                switch (result){
+                    case "Equal":
+                        filterRating = FilterRating.EQUAL;
+                        break;
+                    case "Greater":
+                        filterRating = FilterRating.GREATER;
+                        break;
+                    case "Smaller":
+                        filterRating = FilterRating.SMALLER;
+                        break;
+                    case "Disable":
+                        filterRating = FilterRating.NULL;
+                        break;
+                }
+                Log.e("Spinner of " + id, "Value: " + result);
             }
 
             @Override
@@ -358,14 +418,89 @@ public class FilterDialog extends DialogFragment{
 
         // Spinner ratingVAL setup
         Spinner fRatingVAL = view.findViewById(R.id.filter_ratingVALSpinner);
-        Integer[] values = new Integer[]{0,1,2,3,4,5};
-        ArrayAdapter<Integer> adapter_fRatingVAL = new ArrayAdapter<Integer>(getActivity(), android.R.layout.simple_spinner_item, values);
+        String[] values = new String[]{"0","1","2","3","4","5"};
+        ArrayAdapter<String> adapter_fRatingVAL = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, values);
+        adapter_fRatingVAL.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fRatingVAL.setAdapter(adapter_fRatingVAL);
         fRatingVAL.setSelection(prefs.getInt("filter_ratingVAL", 5));
         fRatingVAL.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String result = parent.getItemAtPosition(position).toString();
 
+                // Store preference
+                editor.putInt("filter_ratingVAL", fRatingVAL.getSelectedItemPosition());
+                editor.apply();
+
+                switch (result){
+                    case "0":
+                        filterRatingNumber = 0;
+                        break;
+                    case "1":
+                        filterRatingNumber = 1;
+                        break;
+                    case "2":
+                        filterRatingNumber = 2;
+                        break;
+                    case "3":
+                        filterRatingNumber = 3;
+                        break;
+                    case "4":
+                        filterRatingNumber = 4;
+                        break;
+                    case "5":
+                        filterRatingNumber = 5;
+                        break;
+                }
+
+                Log.e("Spinner of " + id, "Value: " + result);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // Spinner filterDistance setup
+        Spinner fFilterDistance = view.findViewById(R.id.filter_distanceSpinner);
+        ArrayAdapter<CharSequence> adapter_fFilterDistance = ArrayAdapter.createFromResource(getActivity(),
+                R.array.array_maxDistance, android.R.layout.simple_spinner_item);
+        adapter_fFilterDistance.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fFilterDistance.setAdapter(adapter_fFilterDistance);
+        fFilterDistance.setSelection(prefs.getInt("filter_distance", 3));
+        fFilterDistance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String result = parent.getItemAtPosition(position).toString();
+
+                // Store preference
+                editor.putInt("filter_distance", fFilterDistance.getSelectedItemPosition());
+                editor.apply();
+
+                // Get the corresponding QueryDistance
+                switch (result){
+                    case "1 mi.":
+                        filterDistance = Distance.ONE_MILE;
+                        break;
+                    case "2 mi.":
+                        filterDistance = Distance.TWO_MILES;
+                        break;
+                    case "3 mi.":
+                        filterDistance = Distance.THREE_MILES;
+                        break;
+                    case "5 mi.":
+                        filterDistance = Distance.FIVE_MILES;
+                        break;
+                    case "10 mi.":
+                        filterDistance = Distance.TEN_MILES;
+                        break;
+                    case "No limit":
+                        filterDistance = Distance.NO_LIMIT;
+                        break;
+                }
+
+                Log.e("Spinner of " + id, "Value: " + result);
             }
 
             @Override
@@ -379,8 +514,10 @@ public class FilterDialog extends DialogFragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // on success
+                filter = new FilterHolder(filterRegion, businessType, filterRating, filterRatingNumber, filterDistance);
+                sorter = new SortHolder(sortType, sortAscedning);
 
-                listener.onDialogPositiveClick(searchBy, maxDistance, sortType);
+                listener.onDialogPositiveClick(searchBy, maxDistance, sorter, filter);
             }
         });
 

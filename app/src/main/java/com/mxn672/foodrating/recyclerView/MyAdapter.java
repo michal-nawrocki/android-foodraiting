@@ -1,13 +1,11 @@
 package com.mxn672.foodrating.recyclerView;
 
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.Filterable;
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Establishment;
 import com.mxn672.foodrating.data.EstablishmentDatabase;
@@ -15,7 +13,7 @@ import com.mxn672.foodrating.fragments.EstablishmentFragment;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Filterable{
+public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     public ArrayList<Establishment> mDataset;
     public ArrayList<Establishment> copy_mDataset;
@@ -179,10 +177,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Fil
     @Override
     public int getItemCount() {
         return mDataset.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return establishmentsFilter;
     }
 }

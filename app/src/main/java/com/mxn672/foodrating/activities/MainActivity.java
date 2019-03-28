@@ -31,8 +31,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.mxn672.foodrating.data.FilterHolder;
+import com.mxn672.foodrating.data.SortHolder;
 import com.mxn672.foodrating.data.SortType;
-import com.mxn672.foodrating.data.QueryDistance;
+import com.mxn672.foodrating.data.Distance;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
 import com.mxn672.foodrating.fragments.FilterDialog;
@@ -50,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,8 +73,10 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
 
     private QueryHolder requestQuery;
     private QueryType queryBy = QueryType.NAME;
-    private QueryDistance queryDistance = QueryDistance.THREE_MILES;
-    private SortType filter = SortType.DISTANCE;
+    private Distance queryDistance = Distance.THREE_MILES;
+    private SortHolder sorter = new SortHolder();
+    private FilterHolder filter = new FilterHolder();
+    private String previousKeyword = new String();
     private double lon;
     private double lat;
 
@@ -142,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String keyword) {
+                previousKeyword = keyword;
                 if(requestQuery != null){
                     requestQuery.setUpdatedQuery(queryBy, keyword);
                 }else{
@@ -239,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
                                 findViewById(R.id.establishmentList).setVisibility(View.INVISIBLE);
                                 findViewById(R.id.listError).setVisibility(View.VISIBLE);
                             }else{
+                                sortList(sorter, establishmentsList);
                                 mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
                                 recyclerView.setAdapter(mAdapter);
                                 mAdapter.notifyDataSetChanged();
@@ -285,21 +292,57 @@ public class MainActivity extends AppCompatActivity implements EstablishmentDial
     }
 
     @Override
-    public void onDialogPositiveClick(QueryType qr_type, QueryDistance qr_distance, SortType filter) {
+    public void onDialogPositiveClick(QueryType qr_type, Distance qr_distance, SortHolder sorter, FilterHolder filter) {
         Log.e("Filter Dialog", "Set new values from filter");
         queryBy = qr_type;
         queryDistance = qr_distance;
+        this.sorter = sorter;
         this.filter = filter;
 
-        if(queryBy.equals(QueryType.LOCATION)){
-
-            if(requestQuery != null){
-                requestQuery.setUpdatedQuery(queryBy, "");
-            }else{
-                requestQuery = new QueryHolder(queryBy, "", qr_distance, lon, lat);
-            }
-            loadRecyclerData(requestQuery);
+        if(requestQuery != null){
+            requestQuery.setUpdatedQuery(queryBy, "");
+        }else{
+            requestQuery = new QueryHolder(queryBy, "", qr_distance, lon, lat);
         }
+
+        if(requestQuery.type.equals(QueryType.LOCATION)){
+            loadRecyclerData(requestQuery);
+            return;
+        }
+
+
+        sortList(sorter, establishmentsList);
+        mAdapter = new MyAdapter(establishmentsList, getSupportFragmentManager(), db);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void sortList(SortHolder sorter, ArrayList<Establishment> data){
+        switch (sorter.sortBy){
+            case TYPE:
+                data.sort(Establishment.COMPARE_BY_TYPE);
+                break;
+            case RATING:
+                data.sort(Establishment.COMPARE_BY_RATING);
+                break;
+            case DISTANCE:
+                data.sort(Establishment.COMPARE_BY_DISTANCE);
+                break;
+            case NAME:
+                data.sort(Establishment.COMPARE_BY_NAME);
+                Collections.reverse(data);
+            case DATE:
+                data.sort(Establishment.COMPARE_BY_DATE);
+                break;
+        }
+
+        if(!sorter.ascending) Collections.reverse(data);
+    }
+
+    private ArrayList<Establishment> filterList(FilterHolder filter){
+        ArrayList<Establishment> filtered = new ArrayList<>();
+
+        return filtered;
     }
 }
 

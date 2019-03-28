@@ -9,9 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.Comparator;
+import java.util.EmptyStackException;
 
 @Entity
-public class Establishment {
+public class Establishment{
 
     @PrimaryKey
     @NonNull
@@ -67,4 +69,41 @@ public class Establishment {
     public String getAddress_postcode(){
         return address_postcode;
     }
+
+    public static Comparator<Establishment> COMPARE_BY_DISTANCE = new Comparator<Establishment>(){
+
+        @Override
+        public int compare(Establishment o1, Establishment o2) {
+            return o1.distance.compareToIgnoreCase(o2.distance);
+        }
+    };
+
+    public static Comparator<Establishment> COMPARE_BY_NAME = new Comparator<Establishment>() {
+        @Override
+        public int compare(Establishment o1, Establishment o2) {
+            return o1.businessName.compareToIgnoreCase(o2.businessName);
+        }
+    };
+
+    public static Comparator<Establishment> COMPARE_BY_RATING = new Comparator<Establishment>() {
+        @Override
+        public int compare(Establishment o1, Establishment o2) {
+            return o1.rating.compareToIgnoreCase(o2.rating);
+        }
+    };
+
+
+    public static Comparator<Establishment> COMPARE_BY_TYPE = new Comparator<Establishment>() {
+        @Override
+        public int compare(Establishment o1, Establishment o2) {
+            return o1.businessType.compareToIgnoreCase(o2.businessType);
+        }
+    };
+
+    public static Comparator<Establishment> COMPARE_BY_DATE = new Comparator<Establishment>() {
+        @Override
+        public int compare(Establishment o1, Establishment o2) {
+            return o1.date.compareToIgnoreCase(o2.date);
+        }
+    };
 };
