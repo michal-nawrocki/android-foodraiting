@@ -12,6 +12,7 @@ public class QueryHolder {
     public Double lon = null;
     public Double lat = null;
     public boolean overload = false;
+    private int typeID;
 
     public QueryHolder(QueryType type, String keyword, Distance radius, double lon, double lat) {
         this.type = type;
@@ -28,7 +29,7 @@ public class QueryHolder {
         this.lon = lon;
         this.lat = lat;
         this.overload = true;
-
+        this.typeID = overload;
     }
 
     public String getQueryURL() {
@@ -62,7 +63,7 @@ public class QueryHolder {
         }
 
         if(overload){
-            query += "&businessTypeId=7844";
+            query += "&businessTypeId=" + typeID;
         }
 
         Log.e("QueryLink:", query);

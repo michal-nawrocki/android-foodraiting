@@ -22,22 +22,12 @@
         android:textStyle="bold"
         android:text="Your Favourites"/>
 
-    <ImageButton
-        android:id="@+id/profile_about"
-        android:tint="@color/purple"
-        android:padding="9dp"
-        android:background="@android:color/white"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/info_outline" />
 
     <ImageButton
         android:id="@+id/profile_settings"
         android:tint="@color/purple"
         android:background="@android:color/white"
-        android:padding="9dp"
+        android:padding="7dp"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

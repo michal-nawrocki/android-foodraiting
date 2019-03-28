@@ -2,11 +2,9 @@ package com.mxn672.foodrating.activities;
 
 import android.Manifest;
 import android.app.ActivityOptions;
-import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,7 +37,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PointOfInterest;
 import com.mxn672.foodrating.R;
 import com.mxn672.foodrating.data.Distance;
 import com.mxn672.foodrating.data.Establishment;
@@ -47,9 +44,7 @@ import com.mxn672.foodrating.data.EstablishmentDatabase;
 import com.mxn672.foodrating.data.QueryHolder;
 import com.mxn672.foodrating.data.QueryType;
 import com.mxn672.foodrating.fragments.EstablishmentFragment;
-import com.mxn672.foodrating.fragments.FilterDialog;
 import com.mxn672.foodrating.fragments.interfaces.EstablishmentDialogListener;
-import com.mxn672.foodrating.recyclerView.MyAdapter;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
@@ -73,7 +68,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private double lat;
     private double lon;
 
-    private QueryHolder mapQuery;
+    private QueryHolder mapQueryTake;
+    private QueryHolder mapQueryRest;
 
     private ArrayList<Establishment> allDataAround = new ArrayList<>();;
 
@@ -186,9 +182,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     lat = locationResult.getLastLocation().getLatitude();
                     lon = locationResult.getLastLocation().getLongitude();
 
-                    mapQuery = new QueryHolder(QueryType.LOCATION, "", Distance.ONE_MILE, lon, lat, 1);
+                    mapQueryTake = new QueryHolder(QueryType.LOCATION, "", Distance.ONE_MILE, lon, lat, 7844);
+                    mapQueryRest = new QueryHolder(QueryType.LOCATION, "", Distance.ONE_MILE, lon, lat, 1);
 
-                    loadRecyclerData(mapQuery);
+                    loadRecyclerData(mapQueryTake, true);
 
 
                 }
@@ -198,7 +195,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void loadRecyclerData(QueryHolder qr){
+    public void loadRecyclerData(QueryHolder qr, boolean overload){
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, qr.getQueryURL(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -231,6 +228,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(thisLat, thisLon)).title(estb.businessName));
                                 marker.setTag(estb);
 
+                            }
+
+                            if(overload){
+                                loadRecyclerData(mapQueryRest, false);
                             }
 
                             populateMap();
@@ -272,8 +273,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addMoreData(){
-        mapQuery.setNextPage();
-        loadRecyclerData(mapQuery);
+        mapQueryRest.setNextPage();
+        mapQueryTake.setNextPage();
+        loadRecyclerData(mapQueryTake, true);
     }
 
     // method definition

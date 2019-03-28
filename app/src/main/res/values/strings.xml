@@ -3,4 +3,5 @@
     <string name="profile">Personal</string>
     <string name="map">Map</string>
     <string name="search">Search</string>
+    <string name="credits"></string>
 </resources>

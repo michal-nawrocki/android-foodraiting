@@ -17,7 +17,7 @@
         android:imeOptions="actionSearch"
         android:orientation="horizontal"
         app:iconifiedByDefault="false"
-        app:queryHint="Enter name"/>
+        app:queryHint="Enter keyword"/>
 
     <ImageButton
         android:id="@+id/searchView_filter"
